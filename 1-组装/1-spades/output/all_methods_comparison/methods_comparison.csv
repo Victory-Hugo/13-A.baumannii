@@ -1,0 +1,6 @@
+方法,Contigs数量,基因组大小(bp),最长Contig(bp),状态
+EToKi,2596,4808463,268805,较差
+SPAdes_isolate_原始,5268,5669686,232573,失败
+strategyA_strict,3172,4989767,327607,较差
+strategyB_coverage,289,3950473,232573,优秀
+strategyC_megahit,FAILED,-,-,失败
