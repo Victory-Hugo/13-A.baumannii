@@ -23,7 +23,7 @@ echo "=== 步骤1: 数据质量深度检查 ==="
 if command -v fastqc &>/dev/null; then
     echo "🔧 运行FastQC质量检查..."
     mkdir -p fastqc_output
-    fastqc "$read1" "$read2" -o fastqc_output --threads 8
+    fastqc "$read1" "$read2" -o fastqc_output --threads 16
     echo "✅ FastQC完成，结果在 fastqc_output/"
 else
     echo "⚠️  FastQC未安装，跳过质量检查"
@@ -42,11 +42,7 @@ if command -v bbduk.sh &>/dev/null; then
         in2="$read2" \
         out1=cleaned_1.fastq.gz \
         out2=cleaned_2.fastq.gz \
-        ref=adapters \
-        ktrim=r k=23 mink=11 hdist=1 tpe tbo \
-        qtrim=rl trimq=20 \
-        minlen=50 \
-        threads=8
+        threads=16
     
     echo "✅ 数据清理完成"
     cleaned_read1="cleaned_1.fastq.gz"
@@ -68,7 +64,7 @@ spades.py \
     --only-assembler \
     --pe1-1 "$cleaned_read1" \
     --pe1-2 "$cleaned_read2" \
-    --threads 8 \
+    --threads 16 \
     --memory 16 \
     -k 21,33,55,77 \
     -o strategyA_strict
@@ -80,7 +76,7 @@ spades.py \
     --isolate \
     --pe1-1 "$cleaned_read1" \
     --pe1-2 "$cleaned_read2" \
-    --threads 8 \
+    --threads 16 \
     --memory 16 \
     --cov-cutoff 15 \
     -k 21,33,55 \
@@ -93,11 +89,18 @@ if command -v megahit &>/dev/null; then
         -1 "$cleaned_read1" \
         -2 "$cleaned_read2" \
         -o strategyC_megahit \
-        --threads 8 \
+        -t 16 \
         --min-contig-len 500 \
         --k-min 21 \
         --k-max 77 \
         --k-step 10
+    
+    # 检查MEGAHIT是否成功完成
+    if [[ $? -eq 0 ]] && [[ -f "strategyC_megahit/final.contigs.fa" ]]; then
+        echo "✅ MEGAHIT组装完成"
+    else
+        echo "❌ MEGAHIT组装失败"
+    fi
 else
     echo "⚠️  MEGAHIT未安装，跳过策略C"
 fi
@@ -118,7 +121,13 @@ for strategy in "strategyA_strict" "strategyB_coverage" "strategyC_megahit"; do
     if [[ -f "$contigs_file" ]]; then
         contigs_count=$(grep "^>" "$contigs_file" | wc -l)
         genome_size=$(grep -v "^>" "$contigs_file" | tr -d '\n' | wc -c)
-        longest_contig=$(grep "^>" "$contigs_file" | head -1 | grep -o "length_[0-9]*" | cut -d'_' -f2 2>/dev/null || echo "N/A")
+        
+        # 获取最长contig长度
+        if [[ "$strategy" == "strategyC_megahit" ]]; then
+            longest_contig=$(grep "^>" "$contigs_file" | grep -o "len=[0-9]*" | cut -d'=' -f2 | sort -nr | head -1)
+        else
+            longest_contig=$(grep "^>" "$contigs_file" | grep -o "length_[0-9]*" | cut -d'_' -f2 | sort -nr | head -1 2>/dev/null || echo "N/A")
+        fi
         
         # 简单N50计算
         grep -v "^>" "$contigs_file" | tr -d '\n' > temp_seq.txt
@@ -135,22 +144,29 @@ for strategy in "strategyA_strict" "strategyB_coverage" "strategyC_megahit"; do
         cumulative=0
         n50="N/A"
         while read length; do
-            cumulative=$((cumulative + length))
-            if [[ $cumulative -ge $half_length ]]; then
-                n50=$length
-                break
+            if [[ -n "$length" ]] && [[ "$length" =~ ^[0-9]+$ ]]; then
+                cumulative=$((cumulative + length))
+                if [[ $cumulative -ge $half_length ]]; then
+                    n50=$length
+                    break
+                fi
             fi
         done < lengths.tmp
         
         printf "%-15s | %-9s | %-10s | %-11s | %s\n" \
             "$strategy" "$contigs_count" \
-            "$(echo "scale=2; $genome_size/1000000" | bc)Mb" \
+            "$(echo "scale=2; $genome_size/1000000" | bc 2>/dev/null || echo "N/A")Mb" \
             "$longest_contig" "$n50"
         
         rm -f temp_seq.txt lengths.tmp
     else
         printf "%-15s | %-9s | %-10s | %-11s | %s\n" \
             "$strategy" "FAILED" "-" "-" "-"
+        # 如果是MEGAHIT失败，显示更详细的错误信息
+        if [[ "$strategy" == "strategyC_megahit" ]] && [[ -d "$strategy" ]]; then
+            echo "    检查 $strategy/ 目录内容:"
+            ls -la "$strategy/" 2>/dev/null || echo "    目录不存在或无法访问"
+        fi
     fi
 done
 
