@@ -121,8 +121,10 @@ fi
 echo "📁 输出文件："
 echo "   详细报告：${OUTPUT_DIR}/MLST_detailed_report.txt"
 echo "   汇总表格：${OUTPUT_DIR}/MLST_summary.csv"
+echo "   详细等位基因表格：${OUTPUT_DIR}/MLST_detailed_alleles.csv"
 echo
 echo "💡 提示："
 echo "   - 查看详细报告：less '${OUTPUT_DIR}/MLST_detailed_report.txt'"
 echo "   - 查看汇总表格：column -t -s, '${OUTPUT_DIR}/MLST_summary.csv'"
+echo "   - 查看详细等位基因表格：column -t -s, '${OUTPUT_DIR}/MLST_detailed_alleles.csv'"
 echo "   - 在Excel中打开：可直接打开CSV文件"

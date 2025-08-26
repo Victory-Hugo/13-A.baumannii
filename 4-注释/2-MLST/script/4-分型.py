@@ -445,9 +445,56 @@ def generate_report(all_results, output_dir):
             }
             writer.writerow(row)
     
+    # 生成详细的等位基因表格
+    detailed_alleles_file = os.path.join(output_dir, "MLST_detailed_alleles.csv")
+    with open(detailed_alleles_file, 'w', newline='', encoding='utf-8') as f:
+        # 构建列名：样本名 + ST信息 + Oxford基因 + Pasteur基因
+        fieldnames = (['Sample', 'Oxford_ST', 'Pasteur_ST'] + 
+                     OXFORD_GENES + PASTEUR_GENES)
+        writer = csv.DictWriter(f, fieldnames=fieldnames)
+        writer.writeheader()
+        
+        for result in all_results:
+            row = {
+                'Sample': result['sample'],
+                'Oxford_ST': f"ST-{result['oxford']['st']}" if result['oxford']['st'] else 'N/A',
+                'Pasteur_ST': f"ST-{result['pasteur']['st']}" if result['pasteur']['st'] else 'N/A'
+            }
+            
+            # 添加Oxford方案的等位基因
+            for gene in OXFORD_GENES:
+                allele = result['oxford']['alleles'].get(gene)
+                if allele is not None:
+                    row[gene] = allele
+                else:
+                    # 尝试从预测的基因中获取
+                    if ('st_info' in result['oxford'] and 
+                        'missing_genes' in result['oxford']['st_info']):
+                        predicted = result['oxford']['st_info']['missing_genes'].get(gene)
+                        row[gene] = predicted if predicted and predicted != 'N/A' else 'N/A'
+                    else:
+                        row[gene] = 'N/A'
+            
+            # 添加Pasteur方案的等位基因
+            for gene in PASTEUR_GENES:
+                allele = result['pasteur']['alleles'].get(gene)
+                if allele is not None:
+                    row[gene] = allele
+                else:
+                    # 尝试从预测的基因中获取
+                    if ('st_info' in result['pasteur'] and 
+                        'missing_genes' in result['pasteur']['st_info']):
+                        predicted = result['pasteur']['st_info']['missing_genes'].get(gene)
+                        row[gene] = predicted if predicted and predicted != 'N/A' else 'N/A'
+                    else:
+                        row[gene] = 'N/A'
+            
+            writer.writerow(row)
+    
     print(f"\n报告已生成：")
     print(f"  详细报告：{detailed_report_file}")
     print(f"  汇总表格：{summary_file}")
+    print(f"  详细等位基因表格：{detailed_alleles_file}")
 
 
 def main():
