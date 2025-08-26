@@ -1,0 +1,16 @@
+https://rest.pubmlst.org/db/pubmlst_abaumannii_seqdef/schemes/1/profiles_csv
+https://rest.pubmlst.org/db/pubmlst_abaumannii_seqdef/loci/Oxf_gltA/alleles_fasta
+https://rest.pubmlst.org/db/pubmlst_abaumannii_seqdef/loci/Oxf_gyrB/alleles_fasta
+https://rest.pubmlst.org/db/pubmlst_abaumannii_seqdef/loci/Oxf_gdhB/alleles_fasta
+https://rest.pubmlst.org/db/pubmlst_abaumannii_seqdef/loci/Oxf_recA/alleles_fasta
+https://rest.pubmlst.org/db/pubmlst_abaumannii_seqdef/loci/Oxf_cpn60/alleles_fasta
+https://rest.pubmlst.org/db/pubmlst_abaumannii_seqdef/loci/Oxf_gpi/alleles_fasta
+https://rest.pubmlst.org/db/pubmlst_abaumannii_seqdef/loci/Oxf_rpoD/alleles_fasta
+https://rest.pubmlst.org/db/pubmlst_abaumannii_seqdef/schemes/2/profiles_csv
+https://rest.pubmlst.org/db/pubmlst_abaumannii_seqdef/loci/Pas_cpn60/alleles_fasta
+https://rest.pubmlst.org/db/pubmlst_abaumannii_seqdef/loci/Pas_fusA/alleles_fasta
+https://rest.pubmlst.org/db/pubmlst_abaumannii_seqdef/loci/Pas_gltA/alleles_fasta
+https://rest.pubmlst.org/db/pubmlst_abaumannii_seqdef/loci/Pas_pyrG/alleles_fasta
+https://rest.pubmlst.org/db/pubmlst_abaumannii_seqdef/loci/Pas_recA/alleles_fasta
+https://rest.pubmlst.org/db/pubmlst_abaumannii_seqdef/loci/Pas_rplB/alleles_fasta
+https://rest.pubmlst.org/db/pubmlst_abaumannii_seqdef/loci/Pas_rpoB/alleles_fasta
