@@ -10,7 +10,7 @@ set -euo pipefail
 #   如果不指定样本名称，则自动处理所有样本
 
 # === 配置区 ===
-PYTHON_SCRIPT="/mnt/f/OneDrive/文档（科研）/脚本/Download/13-A.baumannii/4-注释/2-MLST/script/4-分型.py"
+PYTHON_SCRIPT="/mnt/f/OneDrive/文档（科研）/脚本/Download/13-A.baumannii/4-注释/2-MLST/python/4-分型.py"
 PROFILES_DIR="/mnt/f/OneDrive/文档（科研）/脚本/Download/13-A.baumannii/4-注释/2-MLST/download"
 
 # 输入输出路径配置
