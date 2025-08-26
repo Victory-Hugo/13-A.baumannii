@@ -1,0 +1,22 @@
+{
+  "version": "1.2",
+  "dbname": "VFDB_2022_pro_combined",
+  "dbtype": "Protein",
+  "db-version": 5,
+  "description": "/mnt/f/OneDrive/文档（科研）/脚本/Download/13-A.baumannii/4-注释/4-Virulence/data/VFDB_2022_pro_combined.faa",
+  "number-of-letters": 15322967,
+  "number-of-sequences": 32935,
+  "last-updated": "2025-08-26T23:01:00",
+  "number-of-volumes": 1,
+  "bytes-total": 23703625,
+  "bytes-to-cache": 15619599,
+  "files": [
+    "VFDB_2022_pro_combined.pdb",
+    "VFDB_2022_pro_combined.phr",
+    "VFDB_2022_pro_combined.pin",
+    "VFDB_2022_pro_combined.pot",
+    "VFDB_2022_pro_combined.psq",
+    "VFDB_2022_pro_combined.ptf",
+    "VFDB_2022_pro_combined.pto"
+  ]
+}
