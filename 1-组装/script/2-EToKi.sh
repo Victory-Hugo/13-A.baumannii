@@ -96,6 +96,7 @@ fi
 # 删除不必要的中间文件
 rm -rf "${assembly_dir}/etoki_assembly/${prefix}_assembly/spades/"
 rm -f "${assembly_dir}/etoki_assembly/${prefix}_assembly/"*.fastq.gz
+rm -f "${assembly_dir}/etoki_assembly/"*.fastq.gz
 rm -f "${assembly_dir}/etoki_assembly/${prefix}_assembly/"*.bam "${assembly_dir}/etoki_assembly/${prefix}_assembly/"*.bai
 echo "🗑️ 删除中间文件完成"
 # ===== 确定结果文件 =====
