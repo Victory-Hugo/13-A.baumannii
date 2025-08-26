@@ -9,8 +9,8 @@ echo "=================================="
 # ===== 路径设置 =====
 BASENAME="ERR1946991"
 raw_data_dir="/data_raid/7_luolintao/1_Baoman/2-Sequence/data/FASTQ/${BASENAME}"
-read1="${raw_data_dir}/${BASENAME}.sra_1.fastq"
-read2="${raw_data_dir}/${BASENAME}.sra_2.fastq"
+read1="${raw_data_dir}/${BASENAME}.sra_1.fastq.gz"
+read2="${raw_data_dir}/${BASENAME}.sra_2.fastq.gz"
 THREADS=8
 
 # 输出目录
