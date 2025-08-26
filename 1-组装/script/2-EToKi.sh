@@ -7,10 +7,10 @@ echo "=================================="
 
 # ===== 手动输入 FASTQ 文件路径 =====
 # 请手动修改以下两行，填写你的 FASTQ 文件绝对路径
-BASENAME="ERR197551"
-read1="/mnt/c/Users/Administrator/Desktop/${BASENAME}/${BASENAME}_1.fastq.gz"
-read2="/mnt/c/Users/Administrator/Desktop/${BASENAME}/${BASENAME}_2.fastq.gz"
-assembly_dir="/mnt/c/Users/Administrator/Desktop/${BASENAME}_Assembly"
+BASENAME="ERR1946991"
+read1="/data_raid/7_luolintao/1_Baoman/2-Sequence/data/FASTQ/${BASENAME}/${BASENAME}.sra_1.fastq.gz"
+read2="/data_raid/7_luolintao/1_Baoman/2-Sequence/data/FASTQ/${BASENAME}/${BASENAME}.sra_2.fastq.gz"
+assembly_dir="/data_raid/7_luolintao/1_Baoman/1-Assemble/${BASENAME}_Assembly"
 FINAL_FASTA="${assembly_dir}/${BASENAME}.fasta"
 # 检查输入文件是否存在
 if [[ ! -f "$read1" || ! -f "$read2" ]]; then
