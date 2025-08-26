@@ -7,7 +7,7 @@ echo "=================================="
 
 # ===== 手动输入 FASTQ 文件路径 =====
 # 请手动修改以下两行，填写你的 FASTQ 文件绝对路径
-BASENAME="ERR1946991"
+BASENAME="ERR1946999"
 read1="/data_raid/7_luolintao/1_Baoman/2-Sequence/data/FASTQ/${BASENAME}/${BASENAME}.sra_1.fastq.gz"
 read2="/data_raid/7_luolintao/1_Baoman/2-Sequence/data/FASTQ/${BASENAME}/${BASENAME}.sra_2.fastq.gz"
 assembly_dir="/data_raid/7_luolintao/1_Baoman/1-Assemble/${BASENAME}_Assembly"

@@ -1,0 +1,115 @@
+nohup: 忽略输入
+🧬 基因组组装流程启动（EToKi）
+==================================
+✅ 输入文件检查通过
+   Read1: /data_raid/7_luolintao/1_Baoman/2-Sequence/data/FASTQ/ERR1946999/ERR1946999.sra_1.fastq.gz
+   Read2: /data_raid/7_luolintao/1_Baoman/2-Sequence/data/FASTQ/ERR1946999/ERR1946999.sra_2.fastq.gz
+📁 组装目录: /data_raid/7_luolintao/1_Baoman/1-Assemble/ERR1946999_Assembly
+
+=== 执行：EToKi 综合流程 ===
+📊 EToKi 数据预处理...
+2025-08-26 14:06:43.493305	Load in 2 read files from 1 libraries
+2025-08-26 14:07:56.310447	Obtained 436510960 bases in 2892142 reads after Trimming in Lib 0
+--pe ERR1946999_cleaned_L1_R1.fastq.gz,ERR1946999_cleaned_L1_R2.fastq.gz --se ERR1946999_cleaned_L1_SE.fastq.gz
+
+real	1m23.632s
+user	6m41.900s
+sys	0m59.992s
+✅ 预处理完成
+🔧 EToKi 基因组组装...
+2025-08-26 14:08:07.116042	Load in 2 read files from 1 libraries
+2025-08-26 14:08:10.646977	Estimated read length: 150.93036790019443
+2025-08-26 14:15:23.822671	SPAdes scaffolds in spades.fasta
+2025-08-26 14:15:24.346151	Run minimap2 with: /data_raid/7_luolintao/1_Baoman/1-Assemble/ERR1946999_Assembly/etoki_assembly/ERR1946999_cleaned_L1_R1.fastq.gz /data_raid/7_luolintao/1_Baoman/1-Assemble/ERR1946999_Assembly/etoki_assembly/ERR1946999_cleaned_L1_R2.fastq.gz
+2025-08-26 14:15:25.063360	[main] unrecognized command 'markdup'
+2025-08-26 14:15:25.063425	fixmate: invalid option -- 'm'
+2025-08-26 14:15:25.063431	Usage: samtools fixmate <in.nameSrt.bam> <out.nameSrt.bam>
+2025-08-26 14:15:25.063438	Options:
+2025-08-26 14:15:25.063443	  -r           Remove unmapped reads and secondary alignments
+2025-08-26 14:15:25.063448	  -p           Disable FR proper pair check
+2025-08-26 14:15:25.063454	  -c           Add template cigar ct tag
+2025-08-26 14:15:25.063458	      --input-fmt-option OPT[=VAL]
+2025-08-26 14:15:25.063462	               Specify a single input file format option in the form
+2025-08-26 14:15:25.063468	               of OPTION or OPTION=VALUE
+2025-08-26 14:15:25.063473	  -O, --output-fmt FORMAT[,OPT[=VAL]]...
+2025-08-26 14:15:25.063478	               Specify output format (SAM, BAM, CRAM)
+2025-08-26 14:15:25.063483	      --output-fmt-option OPT[=VAL]
+2025-08-26 14:15:25.063489	               Specify a single output file format option in the form
+2025-08-26 14:15:25.063494	               of OPTION or OPTION=VALUE
+2025-08-26 14:15:25.063499	      --reference FILE
+2025-08-26 14:15:25.063505	               Reference sequence FASTA FILE [null]
+2025-08-26 14:15:25.063511	  -@, --threads INT
+2025-08-26 14:15:25.063516	               Number of additional threads to use [0]
+2025-08-26 14:15:25.063521	
+2025-08-26 14:15:25.063526	As elsewhere in samtools, use '-' as the filename for stdin/stdout. The input
+2025-08-26 14:15:25.063531	file must be grouped by read name (e.g. sorted by name). Coordinated sorted
+2025-08-26 14:15:25.063535	input is not accepted.
+2025-08-26 14:15:25.063541	[WARNING][1;31m Indexing parameters (-k, -w or -H) overridden by parameters used in the prebuilt index.[0m
+2025-08-26 14:15:25.063547	[M::main::0.077*1.01] loaded/built the index for 190 target sequence(s)
+2025-08-26 14:15:25.063552	[M::mm_mapopt_update::0.077*1.01] mid_occ = 2000
+2025-08-26 14:15:25.063559	[M::mm_idx_stat] kmer size: 13; skip: 5; is_hpc: 0; #seq: 190
+2025-08-26 14:15:25.063567	[M::mm_idx_stat::0.093*1.01] distinct minimizers: 1168915 (88.83% are singletons); average occurrences: 1.145; average spacing: 2.922; total length: 3910326
+2025-08-26 14:15:25.063575	Traceback (most recent call last):
+2025-08-26 14:15:25.063579	  File "/home/luolintao/miniconda3/envs/etoki/share/etoki-1.2.3/modules/_EnFlt.py", line 15, in <module>
+2025-08-26 14:15:25.063586	    sys.stdout.write(line)
+2025-08-26 14:15:25.063590	BrokenPipeError: [Errno 32] Broken pipe
+2025-08-26 14:15:25.063596	
+[E::hts_open_format] Failed to open file etoki.mapping.0.pe.bam
+samtools index: failed to open "etoki.mapping.0.pe.bam": No such file or directory
+[E::hts_open_format] Failed to open file etoki.mapping.0.pe.bam
+samtools merge: fail to open "etoki.mapping.0.pe.bam": No such file or directory
+[E::hts_open_format] Failed to open file etoki.mapping.merged.bam
+samtools index: failed to open "etoki.mapping.merged.bam": No such file or directory
+usage: EToKi [-h]
+             {configure,prepare,assemble,MLSTdb,MLSType,MLSTsum,cgMLST,align,phylo,EBEis,uberBlast,clust,isCRISPOL}
+             ...
+
+optional arguments:
+  -h, --help            show this help message and exit
+
+sub-commands:
+  {configure,prepare,assemble,MLSTdb,MLSType,MLSTsum,cgMLST,align,phylo,EBEis,uberBlast,clust,isCRISPOL}
+    configure           install and/or configure 3rd party programs
+    prepare             trim, collapse, downsize and rename the short reads.
+    assemble            de novo or reference-guided assembly for genomic or
+                        metagenomic reads
+    MLSTdb              Set up exemplar alleles and database for MLST schemes
+    MLSType             MLST nomenclature using a local set of references
+    MLSTsum             Summarise MLSType results and assign new allele
+                        designations
+    cgMLST              Select a list of genes for the cgMLST scheme
+    align               align multiple queried genomes to a single reference
+    phylo               infer phylogeny and ancestral states from genomic
+                        alignments
+    EBEis               in silico serotype prediction for Escherichia coli and
+                        Shigella spp.
+    uberBlast           Use Blastn, uBlastp, minimap2 and/or mmseqs to
+                        identify similar sequences
+    clust               linear-time clustering of short sequences using mmseqs
+                        linclust
+    isCRISPOL           in silico prediction of CRISPOL array for Salmonella
+                        enterica serovar Typhimurium
+
+real	7m18.690s
+user	27m53.908s
+sys	1m23.280s
+✅ 组装完成
+📄 组装结果保存至: /data_raid/7_luolintao/1_Baoman/1-Assemble/ERR1946999_Assembly/ERR1946999.fasta
+🗑️ 删除中间文件完成
+
+=== 组装完成总结（EToKi） ===
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📁 组装目录: /data_raid/7_luolintao/1_Baoman/1-Assemble/ERR1946999_Assembly
+📄 主要输出文件:
+   - final_assembly_contigs.fasta
+   - etoki_assembly/etoki.mapping.reference.fasta
+   - etoki_assembly/etoki_prepare.log
+   - etoki_assembly/etoki_assembly.log
+
+🎯 后续建议:
+1. 质量评估: quast.py final_assembly_contigs.fasta
+2. 完整性检查: checkm lineage_wf -t 8 -x fasta . checkm_output
+3. 污染检测: kraken2 --db <kraken_db> final_assembly_contigs.fasta
+4. 基因注释: prokka --outdir annotation --prefix sample final_assembly_contigs.fasta
+
+🏁 基因组组装流程完成（EToKi-only）！
