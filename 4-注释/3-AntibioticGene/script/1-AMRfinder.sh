@@ -62,9 +62,9 @@ run_one() {
   echo "    gff: $gff"
   [[ -n "${AMRFINDER_DB_DIR}" ]] && echo "    db : ${AMRFINDER_DB_DIR}"
 
-  # --annotation_format prokka：告诉 AMRFinder 这是 Prokka 风格注释
-  # --plus：启用 PLUS 库（应激/金属/杀生物剂等扩展）
-  #* --plus 加强模式，提供来自“Plus”基因的结果，例如毒力因子、应激反应基因等。
+    # --annotation_format prokka：告诉 AMRFinder 这是 Prokka 风格注释
+    # --plus：启用 PLUS 库（应激/金属/杀生物剂等扩展）
+    #* --plus 加强模式，提供来自“Plus”基因的结果，例如毒力因子、应激反应基因等。
     #* -p RA-RCAD.faa 输入蛋白序列文件
     #* -n  RA-RCAD.ffn 输入CDS核酸序列文件
     #* -g RA-RCAD_amrfinder.gff 输入gff格式的基因组注释文件
