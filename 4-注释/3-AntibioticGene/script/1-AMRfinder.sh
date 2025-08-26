@@ -3,6 +3,16 @@
 #! 并且运行时需要联网！
 
 #=== 配置区（按需修改） ===
+#* 示例：
+#* /mnt/d/1-鲍曼菌/注释prokka
+#* ├── ERR1946991
+#* │   ├── ERR1946991.faa
+#* │   ├── ERR1946991.fna
+#* │   ├── ERR1946991.gff
+#* └── ERR1946999
+#*    ├── ERR1946999.faa
+#*    ├── ERR1946999.fna
+#*    ├── ERR1946999.gff
 PROKKA_OUT_DIR="/mnt/d/1-鲍曼菌/注释prokka"    # Prokka 输出的父目录（其下每个样本一个子目录）
 OUT_DIR="/mnt/d/1-鲍曼菌/抗生素耐药"           # 结果输出目录
 THREADS_PER_JOB="${THREADS_PER_JOB:-8}"        # amrfinder 的 --threads（每个并发任务用多少线程）
