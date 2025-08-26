@@ -11,8 +11,6 @@ MLST分型脚本 - 基于BLAST结果进行鲍曼菌ST分型
 
 支持Oxford和Pasteur两种MLST方案
 
-作者：GitHub Copilot
-日期：2025-08-26
 """
 
 import os
