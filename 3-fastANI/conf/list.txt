@@ -1,0 +1,2 @@
+/data_raid/7_luolintao/1_Baoman/1-Assemble/ERR1946991_Assembly/ERR1946991.fasta
+/data_raid/7_luolintao/1_Baoman/1-Assemble/ERR1946999_Assembly/ERR1946999.fasta

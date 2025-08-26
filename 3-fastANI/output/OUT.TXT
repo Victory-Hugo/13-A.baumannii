@@ -1,0 +1,2 @@
+/home/luolintao/0_Github/13-A.baumannii/3-fastANI/data/GCF_008632635.1.fasta	/data_raid/7_luolintao/1_Baoman/1-Assemble/ERR1946991_Assembly/ERR1946991.fasta	97.8019	1144	1326
+/home/luolintao/0_Github/13-A.baumannii/3-fastANI/data/GCF_008632635.1.fasta	/data_raid/7_luolintao/1_Baoman/1-Assemble/ERR1946999_Assembly/ERR1946999.fasta	97.7922	1140	1326
