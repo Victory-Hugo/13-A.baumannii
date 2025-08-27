@@ -25,7 +25,7 @@ if record_type == 'S':
     clusters[cluster_id].append({'sequence_id': query_id, 'role': 'centroid', 'identity': 100.0})
     cluster_info[cluster_id] = {'centroid': query_id, 'size': 1}
 ```
-S (Seed/Centroid)：表示某个聚类的中心序列。第2列是聚类编号 (cluster_id)，第9列是该 seed 序列 ID。程序在这里初始化这个 cluster。
+S (Seed/Centroid)：表示某个聚类的种子序列。第2列是聚类编号 (cluster_id)，第9列是该 seed 序列 ID。程序在这里初始化这个 cluster。
 → 向 clusters 添加一个成员（role=centroid），并在 cluster_info 里存储聚类中心和大小。
 
 ```python
@@ -58,22 +58,24 @@ H	3	*	91.0	+	0	0	*	seqN	seqI
 H	3	*	90.0	+	0	0	*	seqO	seqI
 H	3	*	89.0	+	0	0	*	seqP	seqI
 ```
-
-cluster_id=0:
-S → seqA（centroid）
-H → seqB, seqC
+首先看第二列的数字，该数字代表聚类编号（cluster_id）。例如第一行第二列：
+cluster_id=0: 代表聚类编号为0.
+S → seqA（centroid）种子序列
+H → seqB, seqC 命中序列
 → cluster 0: [seqA, seqB, seqC]，大小=3
 
-cluster_id=1:
-S → seqD（没有 H）
+再来看第四行第二列：
+cluster_id=1: 代表聚类编号为1.
+S → seqD（没有 H），种子序列
 → cluster 1: [seqD]，大小=1
 
-cluster_id=2:
-S → seqE
-H → seqF, seqG, seqH
+以此类推：
+cluster_id=2: 代表聚类编号为2.
+S → seqE（centroid）种子序列
+H → seqF, seqG, seqH 命中序列
 → cluster 2: [seqE, seqF, seqG, seqH]，大小=4
 
-cluster_id=3:
-S → seqI
-H → seqJ, seqK, seqL, seqM, seqN, seqO, seqP
+cluster_id=3: 代表聚类编号为3.
+S → seqI（centroid）种子序列
+H → seqJ, seqK, seqL, seqM, seqN, seqO, seqP 命中序列
 → cluster 3: [seqI, seqJ, seqK, seqL, seqM, seqN, seqO, seqP]，大小=8
