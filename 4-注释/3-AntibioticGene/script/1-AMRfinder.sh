@@ -19,7 +19,7 @@ THREADS_PER_JOB="${THREADS_PER_JOB:-8}"        # amrfinder 的 --threads（每�
 JOBS="${JOBS:-0}"                               # 并发任务数；0 表示让 parallel 自动取 CPU 核心数；xargs 时会用 nproc
 #（可选）显式指定 AMRFinder 数据库目录；若留空将使用默认查找
 AMRFINDER_DB_DIR="${AMRFINDER_DB_DIR:-}"
-
+cd ${OUT_DIR}
 #=== 环境准备 ===
 unset http_proxy || true
 unset https_proxy || true
