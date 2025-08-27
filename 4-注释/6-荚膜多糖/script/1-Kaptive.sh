@@ -101,7 +101,7 @@ for f in "${OUTPUT_DIR}/K_locus_results/"*_K_locus_results.tsv; do
 done
 shopt -u nullglob
 
-# 删除中间结果目录
+## 删除中间结果目录
 # rm -rf  "${OUTPUT_DIR}/OCL_results"
 # rm -rf  "${OUTPUT_DIR}/K_locus_results"
 

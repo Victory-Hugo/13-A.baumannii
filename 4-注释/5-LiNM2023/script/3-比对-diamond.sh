@@ -92,7 +92,7 @@ diamond_one() {
   local base stem outtsv
   base="$(basename "$faa")"
   stem="${base%.faa}"
-  outtsv="${OUT_DIR}/${stem}_vs_VFDB.tsv"
+  outtsv="${OUT_DIR}/${stem}_vs_生物杀灭.tsv"
 
   echo ">>> ${stem}"
   # 使用 --outfmt 6 表示表格格式；-p 为线程数
