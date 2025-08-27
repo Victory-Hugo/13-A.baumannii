@@ -21,8 +21,6 @@
 #   - Python3
 #   - Grapetree 工具
 #
-# 作者: 罗林焘
-# 日期: 2025年8月26日
 # -----------------------------------------------------------------------------
 
 
@@ -31,10 +29,10 @@ MLST_FILE="/mnt/d/1-鲍曼菌/MLST/分型结果/MLST_detailed_alleles.csv"
 OUTPUT_DIR="/mnt/d/1-鲍曼菌/MLST/分型结果/"
 
 
-# # 调用：输入文件 + 输出目录
-# python3 "${PYTHON_SCRIPT}" \
-#   "${MLST_FILE}" \
-#   "${OUTPUT_DIR}"
+# 调用：输入文件 + 输出目录
+python3 "${PYTHON_SCRIPT}" \
+  "${MLST_FILE}" \
+  "${OUTPUT_DIR}"
 
 
 grapetree -p "${OUTPUT_DIR}/MLST_ST_Ox.txt" \
