@@ -25,9 +25,11 @@
 
 
 PYTHON_SCRIPT="/mnt/f/OneDrive/文档（科研）/脚本/Download/13-A.baumannii/4-注释/2-MLST/python/5-MLST→Grapetree.py"
+PYTHON_SCRIPT_2="/mnt/f/OneDrive/文档（科研）/脚本/Download/13-A.baumannii/4-注释/2-MLST/python/5-dis→csv.py"
 MLST_FILE="/mnt/d/1-鲍曼菌/MLST/分型结果/MLST_detailed_alleles.csv"
 OUTPUT_DIR="/mnt/d/1-鲍曼菌/MLST/分型结果/"
 
+cd ${OUTPUT_DIR}
 
 # 调用：输入文件 + 输出目录
 python3 "${PYTHON_SCRIPT}" \
@@ -44,3 +46,23 @@ grapetree -p "${OUTPUT_DIR}/MLST_ST_Pa.txt" \
      --n_proc 8 \
      --heuristic harmonic \
      > "${OUTPUT_DIR}/MLST_ST_Pa.tree.nwk"
+
+grapetree -p "${OUTPUT_DIR}/MLST_ST_Ox.txt" \
+  -m distance \
+  -x symmetric -y 0 \
+  --n_proc 8 \
+  > "${OUTPUT_DIR}/MLST_ST_Ox.dist"
+
+grapetree -p "${OUTPUT_DIR}/MLST_ST_Pa.txt" \
+  -m distance \
+  -x symmetric -y 0 \
+  --n_proc 8 \
+  > "${OUTPUT_DIR}/MLST_ST_Pa.dist"
+
+python3 "${PYTHON_SCRIPT_2}" \
+     "${OUTPUT_DIR}/MLST_ST_Ox.dist"
+
+python3 "${PYTHON_SCRIPT_2}" \
+     "${OUTPUT_DIR}/MLST_ST_Pa.dist"
+
+
