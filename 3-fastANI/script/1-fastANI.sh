@@ -12,17 +12,26 @@
 # - 路径需根据实际环境进行调整。
 # - 输出文件将包含每个样本与参考基因组的ANI结果。
 #todo 设置目录和文件路径
-ASSEMBLE_DIR="/data_raid/7_luolintao/1_Baoman/1-Assemble/" #? 组装目录
-LIST_TXT="/home/luolintao/0_Github/13-A.baumannii/3-fastANI/conf/list.txt" #? fasta列表文件
-OUTPUT_TXT="/home/luolintao/0_Github/13-A.baumannii/3-fastANI/output/OUT.TXT" #? 输出结果文件
-REF_FASTA="/home/luolintao/0_Github/13-A.baumannii/3-fastANI/data/GCF_008632635.1.fasta" #? 参考基因组fasta文件
+SCRIPT_BASE_DIR="/mnt/f/OneDrive/文档（科研）/脚本/Download/13-A.baumannii/3-fastANI/"
+ASSEMBLE_DIR="/mnt/d/1-ABaumannii/Assemble_rename/" #? 组装目录
+LIST_TXT="${SCRIPT_BASE_DIR}conf/list.txt" #? fasta列表文件
+OUTPUT_TXT="${SCRIPT_BASE_DIR}output/OUT.TXT" #? 输出结果文件
+REF_FASTA="${SCRIPT_BASE_DIR}data/GCF_008632635.1.fasta" #? 参考基因组fasta文件
 
 cd ${ASSEMBLE_DIR}
+
+echo "[1. 查找fasta文件...]"
 
 
 find $(pwd) -maxdepth 2 -type f -name "*fasta" > ${LIST_TXT}
 
+echo "[2. 计算ANI...]"
+
 fastANI \
+    --threads 16 \
     -q ${REF_FASTA} \
     --rl ${LIST_TXT} \
     -o ${OUTPUT_TXT}
+
+echo "[完成] 结果保存在 ${OUTPUT_TXT}"
+echo "[一般认为ANI值在95%以上表示两个基因组属于同一物种.]"

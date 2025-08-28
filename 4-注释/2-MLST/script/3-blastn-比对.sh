@@ -5,8 +5,8 @@ set -euo pipefail
 BASE="/mnt/f/OneDrive/文档（科研）/脚本/Download/13-A.baumannii/4-注释/2-MLST/download"
 OX_DB="${BASE}/Oxford/blastdb/oxford"
 PA_DB="${BASE}/Pasteur/blastdb/pasteur"
-IN_DIR="/mnt/d/1-鲍曼菌/组装完成"
-OUT_DIR="/mnt/d/1-鲍曼菌/MLST"
+IN_DIR="/mnt/d/1-ABaumannii/Assemble_rename"
+OUT_DIR="/mnt/d/1-ABaumannii/MLST"
 
 # 并发度（可改），parallel 存在时生效；默认为 CPU 核心数
 PARALLEL_JOBS="${PARALLEL_JOBS:-0}"   # 0 表示让 parallel 自定（= 核心数）

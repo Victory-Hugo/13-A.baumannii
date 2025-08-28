@@ -26,8 +26,8 @@
 
 PYTHON_SCRIPT="/mnt/f/OneDrive/文档（科研）/脚本/Download/13-A.baumannii/4-注释/2-MLST/python/5-MLST→Grapetree.py"
 PYTHON_SCRIPT_2="/mnt/f/OneDrive/文档（科研）/脚本/Download/13-A.baumannii/4-注释/2-MLST/python/5-dis→csv.py"
-MLST_FILE="/mnt/d/1-鲍曼菌/MLST/分型结果/MLST_detailed_alleles.csv"
-OUTPUT_DIR="/mnt/d/1-鲍曼菌/MLST/分型结果/"
+MLST_FILE="/mnt/d/1-ABaumannii/MLST/分型结果/MLST_detailed_alleles.csv"
+OUTPUT_DIR="/mnt/d/1-ABaumannii/MLST/分型结果/"
 
 cd ${OUTPUT_DIR}
 
