@@ -6,8 +6,8 @@ echo "🧬 基因组组装流程启动（EToKi - 批量处理）"
 echo "=============================================="
 
 # ===== 配置参数 =====
-INPUT_DIR="/mnt/d/1-鲍曼菌/原始文件/FASTQ"
-OUTPUT_DIR="/mnt/d/1-鲍曼菌/组装完成"
+INPUT_DIR="/mnt/d/1-ABaumannii/原始文件/FASTQ"
+OUTPUT_DIR="/mnt/d/1-ABaumannii/Assemble"
 PARALLEL_JOBS=2
 
 # 导出变量以便在parallel中使用
