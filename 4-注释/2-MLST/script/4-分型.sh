@@ -14,8 +14,8 @@ PYTHON_SCRIPT="/mnt/f/OneDrive/文档（科研）/脚本/Download/13-A.baumannii
 PROFILES_DIR="/mnt/f/OneDrive/文档（科研）/脚本/Download/13-A.baumannii/4-注释/2-MLST/download"
 
 # 输入输出路径配置
-BLAST_RESULTS_DIR="/mnt/d/1-鲍曼菌/MLST"
-OUTPUT_DIR="/mnt/d/1-鲍曼菌/MLST/分型结果"
+BLAST_RESULTS_DIR="/mnt/d/1-ABaumannii/MLST"
+OUTPUT_DIR="/mnt/d/1-ABaumannii/MLST/分型结果"
 
 # 质量控制参数
 MIN_IDENTITY=95.0

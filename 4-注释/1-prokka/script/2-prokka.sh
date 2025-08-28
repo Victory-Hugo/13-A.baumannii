@@ -3,8 +3,8 @@
 #todo conda install prokka
 
 # 定义输入和输出目录
-INPUT_DIR="/mnt/d/1-鲍曼菌/组装完成"
-OUTPUT_DIR="/mnt/d/1-鲍曼菌/注释prokka"
+INPUT_DIR="/mnt/d/1-ABaumannii/Assemble_rename"
+OUTPUT_DIR="/mnt/d/1-ABaumannii/注释prokka"
 
 # 创建输出目录（如果不存在）
 mkdir -p "$OUTPUT_DIR"
