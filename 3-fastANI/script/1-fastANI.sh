@@ -12,8 +12,8 @@
 # - 路径需根据实际环境进行调整。
 # - 输出文件将包含每个样本与参考基因组的ANI结果。
 #todo 设置目录和文件路径
-SCRIPT_BASE_DIR="/mnt/f/OneDrive/文档（科研）/脚本/Download/13-A.baumannii/3-fastANI/"
-ASSEMBLE_DIR="/mnt/d/1-ABaumannii/Assemble_rename/" #? 组装目录
+SCRIPT_BASE_DIR="/home/luolintao/0_Github/13-A.baumannii/3-fastANI/"
+ASSEMBLE_DIR="/home/luolintao/5-AB-Baoman/1-Assemble/" #? 组装目录
 LIST_TXT="${SCRIPT_BASE_DIR}conf/list.txt" #? fasta列表文件
 OUTPUT_TXT="${SCRIPT_BASE_DIR}output/OUT.TXT" #? 输出结果文件
 REF_FASTA="${SCRIPT_BASE_DIR}data/GCF_008632635.1.fasta" #? 参考基因组fasta文件
