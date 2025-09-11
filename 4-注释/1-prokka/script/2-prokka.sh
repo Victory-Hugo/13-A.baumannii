@@ -3,8 +3,8 @@
 #todo conda install prokka
 
 # 定义输入和输出目录
-INPUT_DIR="/mnt/d/1-ABaumannii/Assemble_rename"
-OUTPUT_DIR="/mnt/d/1-ABaumannii/注释prokka"
+INPUT_DIR="/data_ssd3/7_luolintao_Baoman/1-Assemble/NCBI_Origin/fasta"
+OUTPUT_DIR="/data_ssd3/7_luolintao_Baoman/1-Assemble/NCBI_Origin/prokka"
 
 # 创建输出目录（如果不存在）
 mkdir -p "$OUTPUT_DIR"
@@ -36,6 +36,6 @@ export -f process_fasta
 export OUTPUT_DIR
 
 # 使用parallel并行处理所有fasta文件
-find "$INPUT_DIR" -name "*.fasta" -type f | parallel --bar -j 4 process_fasta
+find "$INPUT_DIR" -name "*.fasta" -type f | parallel --bar -j 8 process_fasta
 
 echo "所有文件处理完成！"
