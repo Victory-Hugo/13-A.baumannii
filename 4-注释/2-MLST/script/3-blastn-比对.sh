@@ -2,11 +2,11 @@
 set -euo pipefail
 
 # === 配置区（按需改路径） ===
-BASE="/mnt/f/OneDrive/文档（科研）/脚本/Download/13-A.baumannii/4-注释/2-MLST/download"
+BASE="/home/luolintao/0_Github/13-A.baumannii/4-注释/2-MLST/download"
 OX_DB="${BASE}/Oxford/blastdb/oxford"
 PA_DB="${BASE}/Pasteur/blastdb/pasteur"
-IN_DIR="/mnt/d/1-ABaumannii/Assemble_rename"
-OUT_DIR="/mnt/d/1-ABaumannii/MLST"
+IN_DIR="/data_ssd3/7_luolintao_Baoman/1-Assemble/NCBI_Origin/prokka/"
+OUT_DIR="/data_ssd3/7_luolintao_Baoman/1-Assemble/NCBI_Origin/MLST"
 
 # 并发度（可改），parallel 存在时生效；默认为 CPU 核心数
 PARALLEL_JOBS="${PARALLEL_JOBS:-0}"   # 0 表示让 parallel 自定（= 核心数）
@@ -39,7 +39,7 @@ echo
 # === 构造输入文件列表（null分隔，含大小写扩展名） ===
 # 只在 IN_DIR 的第一层找文件；如需递归把 -maxdepth 1 去掉。
 mapfile -d '' files < <(
-  find "${IN_DIR}" -maxdepth 1 -type f \
+  find "${IN_DIR}" -maxdepth 2 -type f \
     \( -iname '*.fasta' -o -iname '*.fa' -o -iname '*.fna' -o -iname '*.fas' \) -print0
 )
 

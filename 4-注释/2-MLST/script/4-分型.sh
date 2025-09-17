@@ -10,12 +10,12 @@ set -euo pipefail
 #   如果不指定样本名称，则自动处理所有样本
 
 # === 配置区 ===
-PYTHON_SCRIPT="/mnt/f/OneDrive/文档（科研）/脚本/Download/13-A.baumannii/4-注释/2-MLST/python/4-分型.py"
-PROFILES_DIR="/mnt/f/OneDrive/文档（科研）/脚本/Download/13-A.baumannii/4-注释/2-MLST/download"
+PYTHON_SCRIPT="/home/luolintao/0_Github/13-A.baumannii/4-注释/2-MLST/python/4-分型.py"
+PROFILES_DIR="/home/luolintao/0_Github/13-A.baumannii/4-注释/2-MLST/download"
 
 # 输入输出路径配置
-BLAST_RESULTS_DIR="/mnt/d/1-ABaumannii/MLST"
-OUTPUT_DIR="/mnt/d/1-ABaumannii/MLST/分型结果"
+BLAST_RESULTS_DIR="/data_ssd3/7_luolintao_Baoman/1-Assemble/NCBI_Origin/MLST"
+OUTPUT_DIR="/data_ssd3/7_luolintao_Baoman/1-Assemble/NCBI_Origin/MLST/分型结果"
 
 # 质量控制参数
 MIN_IDENTITY=95.0
