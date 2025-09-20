@@ -37,9 +37,9 @@ set -euo pipefail
 #   - 支持用户自定义并发参数，建议根据实际硬件调整。
 
 # === 配置 ===
-PROKKA_DIR="/mnt/d/1-鲍曼菌/注释prokka"
-VFDB_DB="/mnt/f/OneDrive/文档（科研）/脚本/Download/13-A.baumannii/4-注释/5-LiNM2023/data/biocide_resistance.translated"
-OUT_DIR="/mnt/d/1-鲍曼菌/生物杀灭抵抗/"
+PROKKA_DIR="/data_ssd3/7_luolintao_Baoman/1-Assemble/NCBI_Origin/prokka"
+VFDB_DB="/home/luolintao/0_Github/13-A.baumannii/4-注释/5-LiNM2023/data/biocide_resistance.translated"
+OUT_DIR="/data_ssd3/7_luolintao_Baoman/1-Assemble/NCBI_Origin/生物杀灭抵抗"
 JOBS="${JOBS:-0}"               # 并发任务数：0=自动计算（见后）
 THREADS_PER_JOB="${THREADS_PER_JOB:-1}"  # 每个 diamond 的线程（默认 1，更保守）
 

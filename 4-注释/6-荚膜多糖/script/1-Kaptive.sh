@@ -10,8 +10,8 @@
 # 5) **取消 temp 文件，直接用 .ffn 输入**
 
 # ================== 可配置区 ==================
-INPUT_DIR="/mnt/d/1-鲍曼菌/注释prokka" 
-OUTPUT_DIR="/mnt/d/1-鲍曼菌/荚膜多糖"
+INPUT_DIR="/data_ssd3/7_luolintao_Baoman/1-Assemble/NCBI_Origin/prokka" 
+OUTPUT_DIR="/data_ssd3/7_luolintao_Baoman/1-Assemble/NCBI_Origin/荚膜多糖"
 
 PARALLEL_JOBS="2"
 # ============================================
