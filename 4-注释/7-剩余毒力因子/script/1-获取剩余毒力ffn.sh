@@ -38,12 +38,12 @@
 #     ├── ERR1946999.ffn
 
 # ========== 固定路径 ==========
-PROKKA_DIR="/mnt/d/1-鲍曼菌/注释prokka"
-K_DIR="/mnt/d/1-鲍曼菌/荚膜多糖/K_locus_results"
-OCL_DIR="/mnt/d/1-鲍曼菌/荚膜多糖/OCL_results"
-OUTPUT_DIR="/mnt/d/1-鲍曼菌/毒力因子其他"
+PROKKA_DIR="/data_ssd3/7_luolintao_Baoman/1-Assemble/NCBI_Origin/prokka"
+K_DIR="/data_ssd3/7_luolintao_Baoman/1-Assemble/NCBI_Origin/荚膜多糖/K_locus_results"
+OCL_DIR="/data_ssd3/7_luolintao_Baoman/1-Assemble/NCBI_Origin/荚膜多糖/OCL_results"
+OUTPUT_DIR="/data_ssd3/7_luolintao_Baoman/1-Assemble/NCBI_Origin/毒力因子其他"
 PARALLEL_JOBS=2
-PYTHON_SCRIPT="/mnt/f/OneDrive/文档（科研）/脚本/Download/13-A.baumannii/4-注释/7-剩余毒力因子/python/1-获取剩余毒力ffn.py"
+PYTHON_SCRIPT="/home/luolintao/0_Github/13-A.baumannii/4-注释/7-剩余毒力因子/python/1-获取剩余毒力ffn.py"
 # =======================================
 
 # 导出环境变量，供 process_one.py 使用
