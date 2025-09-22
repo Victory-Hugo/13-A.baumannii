@@ -4,10 +4,10 @@
 # 保留样本ID和基因ID用于后期追踪
 
 # 设置路径
-INPUT_DIR="/mnt/d/1-鲍曼菌/毒力因子其他"
+INPUT_DIR="/data_ssd3/7_luolintao_Baoman/1-Assemble/NCBI_Origin/毒力因子其他"
 TEMP_DIR="${INPUT_DIR}/vsearch_clustering/"
 FINAL_DIR="${INPUT_DIR}/vsearch_clustering_final/"
-SCRIPT_DIR="/mnt/f/OneDrive/文档（科研）/脚本/Download/13-A.baumannii/4-注释/7-剩余毒力因子/python"
+SCRIPT_DIR="/home/luolintao/0_Github/13-A.baumannii/4-注释/7-剩余毒力因子/python"
 
 # 创建输出目录
 mkdir -p "$TEMP_DIR"

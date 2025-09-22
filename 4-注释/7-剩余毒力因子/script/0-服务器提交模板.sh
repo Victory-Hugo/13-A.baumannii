@@ -2,9 +2,9 @@
 # 一键运行批处理脚本（支持 screen / tmux）
 
 # 配置
-SESSION_NAME="Remain_virulence_run"
+SESSION_NAME="vsearch_virulence_run"
 SCRIPT_PATH="/home/luolintao/0_Github/13-A.baumannii/4-注释/7-剩余毒力因子/script/1-获取剩余毒力ffn.sh"
-LOG_FILE="Remain_virulence_run.log"
+LOG_FILE="vsearch_virulence_run.log"
 
 echo "🧬 启动 $SESSION_NAME 批处理..."
 echo "会话名称: $SESSION_NAME"
