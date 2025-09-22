@@ -1,0 +1,7 @@
+organism: Acinetobacter baumannii ERR1417322 
+contigs: 3123
+bases: 6800763
+CDS: 7508
+rRNA: 10
+tRNA: 94
+tmRNA: 1
