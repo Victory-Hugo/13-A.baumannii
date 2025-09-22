@@ -1,0 +1,15 @@
+Spacedust基因组上下文可视化总结 (简化版本)
+=========================================
+生成时间: 2025-09-22 22:49:42.825806
+输入文件: /mnt/f/OneDrive/文档（科研）/脚本/Download/13-A.baumannii/5-Spacedust/output//image/faithful/gggene_data_for_r.csv
+中心基因: 1
+基因组数量: 3
+基因总数: 6507
+正向基因: 3242
+反向基因: 3265
+中心基因数量: 785
+
+基因组列表:
+  ERR1417339: 441 genes
+  ERR1946991: 2999 genes
+  ERR1946999: 3067 genes
