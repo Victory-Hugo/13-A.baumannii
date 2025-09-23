@@ -8,7 +8,9 @@
 #
 #todo conda activate pyg
 # 默认参数
-DATA_DIR="/mnt/c/Users/Administrator/Desktop/Spa/output/"
+# 脚本目录
+SCRIPT_DIR="/mnt/f/OneDrive/文档（科研）/脚本/Download/13-A.baumannii/5-Spacedust/script" #? 该目录下需要python和R脚本
+DATA_DIR="/mnt/c/Users/Administrator/Desktop/Spa/output/" #? 由0-1-运行.sh生成的output目录
 JOBNAME="Test" #TODO 作业名称
 OUTPUT_DIR="${DATA_DIR}/image/faithful"
 GENOME=""
@@ -18,8 +20,6 @@ LOWER_BOUND=1 #TODO 缩放下界，默认1
 UPPER_BOUND=100 #TODO 缩放上界，默认100
 WINDOW_SIZE=100 #TODO 滑动窗口大小，默认100
 
-# 脚本目录
-SCRIPT_DIR="/mnt/f/OneDrive/文档（科研）/脚本/Download/13-A.baumannii/5-Spacedust/script"
 
 # 帮助信息
 show_help() {

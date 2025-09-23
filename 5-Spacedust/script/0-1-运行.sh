@@ -5,7 +5,7 @@
 #todo 运行前切换conda activate spacedust
 conda activate spacedust
 
-INPUT_TYPE=0  #todo 选择1：全对全比对；0：Target比对
+INPUT_TYPE=1  #todo 选择1：全对全比对；0：Target比对
 SEARCH_TYPE=0  #todo 搜索模式：选择MMseqs 
 NEED_PRODIGAL="True"
 TARGET_TYPE=1 #todo TARGET_TYPE=0自己上传，1使用keggclusterdb 
@@ -14,12 +14,12 @@ NUM_ITERATIONS=1
 
 #*=========分隔符==========
 JOBNAME="Test"  #! 作业名称
-BASEDIR="/mnt/f/OneDrive/文档（科研）/脚本/Download/13-A.baumannii/5-Spacedust/"
-WORK_DIR="/mnt/c/Users/Administrator/Desktop/Spa/"
+BASEDIR="/mnt/f/OneDrive/文档（科研）/脚本/Download/13-A.baumannii/5-Spacedust/" #? 脚本所在目录
+WORK_DIR="/mnt/c/Users/Administrator/Desktop/Spa/" #! 工作目录
 ORIGIN_DIR="/mnt/c/Users/Administrator/Desktop/Test/"  #! 输入基因组目录
 PROCESSION_DIR="${WORK_DIR}/Test_Prodigal/"  #! 输入蛋白质序列目录，由prodigal生成
-DATABASE_DIR="${WORK_DIR}/database"
-OUTPUT_DIR="${WORK_DIR}/output"
+DATABASE_DIR="${WORK_DIR}/database" #! 数据库目录
+OUTPUT_DIR="${WORK_DIR}/output" #! 输出目录
 #*=========分隔符==========
 PRODIGAL="/mnt/f/OneDrive/文档（科研）/脚本/Download/13-A.baumannii/5-Spacedust/download/prodigal.linux" 
 #*=========分隔符==========
@@ -55,6 +55,10 @@ fi
 cecho() { printf "%b\n" "${BLUE}$*${RESET}"; }
 cecho_bold() { printf "%b\n" "${BOLD}${BLUE}$*${RESET}"; }
 cecho "开始运行 Spacedust 流程 - 作业名称: ${JOBNAME}"
+
+cecho_bold "该脚本通过Jupyter Notebook转换而来"
+cecho_bold "我只测试了全对全比对模式"
+cecho_bold "KEGG暂未测试"
 
 if [ "${NEED_PRODIGAL}" = "True" ]; then
   shopt -s nullglob
