@@ -13,7 +13,7 @@ NUM_ITERATIONS=1
 
 #* 软件设置区域
 BASEDIR="/mnt/f/OneDrive/文档（科研）/脚本/Download/13-A.baumannii/5-Spacedust/"
-PRODIGAL="${BASEDIR}/download/prodigal/bin/prodigal.linux" 
+PRODIGAL="${BASEDIR}/download/prodigal.linux" 
 KEGG_DATABASE_DIR="/mnt/e/Scientifc_software/KEGG_70"  #todo KEGG数据库路径
 #* 路径设置区
 INPUT_DIR="${BASEDIR}/${JOBNAME}_Prodigal"  #TODO 输入蛋白质序列目录
