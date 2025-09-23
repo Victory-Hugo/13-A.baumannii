@@ -1,9 +1,9 @@
 Spacedust可视化完成报告
 ========================
 
-生成时间: Mon Sep 22 22:49:42 CST 2025
+生成时间: Tue Sep 23 14:17:04 CST 2025
 数据目录: /mnt/f/OneDrive/文档（科研）/脚本/Download/13-A.baumannii/5-Spacedust/output/
-作业名称: TEST
+作业名称: Test
 输出目录: /mnt/f/OneDrive/文档（科研）/脚本/Download/13-A.baumannii/5-Spacedust/output//image/faithful
 查询基因组: 自动选择
 蛋白质ID: 1
@@ -14,9 +14,9 @@ Spacedust可视化完成报告
 ===========
 
 Python可视化输出:
-  faithful_heatmap_ERR1417339_faa.pdf
-  faithful_heatmap_ERR1417339_faa.png
-  faithful_sliding_barplot_ERR1417339_faa.png
+  faithful_heatmap_ERR1417326_faa.pdf
+  faithful_heatmap_ERR1417326_faa.png
+  faithful_sliding_barplot_ERR1417326_faa.png
 
 R可视化输出:
   spacedust_gene_density.png
