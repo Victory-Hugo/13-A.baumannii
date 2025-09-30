@@ -79,6 +79,11 @@ process_sample() {
     assembly_dir="$OUTPUT_DIR/${basename}_Assembly"
     FINAL_FASTA="$OUTPUT_DIR/${basename}.fasta"
     
+    if [[ -s "$FINAL_FASTA" ]]; then
+        echo "⏭️  检测到已存在的FASTA文件，跳过重新组装: $FINAL_FASTA"
+        return 0
+    fi
+
     if [[ "$is_paired" == true ]]; then
         echo "✅ 检测到双端测序: $basename"
         echo "   Read1: $read1"
@@ -221,6 +226,7 @@ echo "📊 找到 ${#all_files[@]} 个 fastq.gz 文件"
 # 过滤掉已经处理过的配对文件（避免重复处理_2文件）
 declare -a files_to_process=()
 declare -A processed_bases=()
+declare -a skipped_samples=()
 
 for file in "${all_files[@]}"; do
     basename=$(basename "$file" .fastq.gz)
@@ -243,13 +249,23 @@ for file in "${all_files[@]}"; do
     # 检查是否为_1或_R1文件，或者单端文件
     if [[ "$basename" =~ _1$ ]]; then
         base_prefix="${basename%_1}"
+        final_basename="$base_prefix"
         processed_bases[$base_prefix]=1
     elif [[ "$basename" =~ _R1$ ]]; then
         base_prefix="${basename%_R1}"
+        final_basename="$base_prefix"
         processed_bases[$base_prefix]=1
     else
         # 单端文件或其他命名格式
+        final_basename="$basename"
         processed_bases[$basename]=1
+    fi
+
+    output_fasta="$OUTPUT_DIR/${final_basename}.fasta"
+    if [[ -s "$output_fasta" ]]; then
+        echo "⏭️  检测到已有组装结果，跳过: $(basename \"$output_fasta\")"
+        skipped_samples+=("$final_basename")
+        continue
     fi
     
     files_to_process+=("$file")
@@ -284,8 +300,9 @@ echo ""
 echo "=== 批量组装完成总结 ==="
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo "📁 输入目录: $INPUT_DIR"
-echo "� 输出目录: $OUTPUT_DIR"
+echo "📁 输出目录: $OUTPUT_DIR"
 echo "📊 处理文件数: ${#files_to_process[@]}"
+echo "🔁 已跳过（检测到现有FASTA）: ${#skipped_samples[@]}"
 
 echo ""
 echo "📄 输出文件列表:"
@@ -311,6 +328,14 @@ done
 
 echo ""
 echo "📊 成功组装: $successful_assemblies/${#files_to_process[@]}"
+
+if [[ ${#skipped_samples[@]} -gt 0 ]]; then
+    echo ""
+    echo "🔁 已跳过样本列表:"
+    for sample in "${skipped_samples[@]}"; do
+        echo "   ↪️  $OUTPUT_DIR/${sample}.fasta"
+    done
+fi
 
 if [[ $parallel_exit_code -eq 0 && $successful_assemblies -eq ${#files_to_process[@]} ]]; then
     echo "🎉 所有样本组装成功！"
