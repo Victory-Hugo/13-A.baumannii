@@ -6,7 +6,7 @@ echo "🧬 基因组组装流程启动（EToKi - 批量处理）"
 echo "=============================================="
 
 # ===== 配置参数 =====
-INPUT_DIR="/data_raid/7_luolintao/1_Baoman/2-Sequence/FASTQ/FASTQ/"
+INPUT_DIR="/data_raid/7_luolintao/1_Baoman/2-Sequence/FASTQ/FASTQ/unfinished/"
 OUTPUT_DIR="/data_raid/7_luolintao/1_Baoman/2-Sequence/FASTQ/Assemble/"
 PARALLEL_JOBS=15
 
