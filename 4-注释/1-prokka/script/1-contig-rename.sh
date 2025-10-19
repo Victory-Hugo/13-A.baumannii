@@ -1,7 +1,6 @@
 #!/bin/bash
-# 用法: bash rename_contigs.sh /data_raid/7_luolintao/1_Baoman/1-Assemble/NCBI_Origin/fasta/
 
-indir="/data_raid/7_luolintao/1_Baoman/1-Assemble/NCBI_Origin/fasta"
+indir="/data_raid/7_luolintao/1_Baoman/1-Assemble/NCBI_Sequence_1/fasta"
 
 
 
