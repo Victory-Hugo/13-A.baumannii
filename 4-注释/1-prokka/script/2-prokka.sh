@@ -3,8 +3,8 @@
 #todo conda install prokka
 
 # 定义输入和输出目录
-INPUT_DIR="/data_ssd3/7_luolintao_Baoman/1-Assemble/NCBI_Origin/fasta"
-OUTPUT_DIR="/data_ssd3/7_luolintao_Baoman/1-Assemble/NCBI_Origin/prokka"
+INPUT_DIR="//data_raid/7_luolintao/1_Baoman/1-Assemble/NCBI_Sequence_1/fasta"
+OUTPUT_DIR="/data_raid/7_luolintao/1_Baoman/1-Assemble/NCBI_Sequence_1/prokka"
 
 # 创建输出目录（如果不存在）
 mkdir -p "$OUTPUT_DIR"
