@@ -352,3 +352,4 @@ echo "4. 基因注释: 对每个fasta文件运行prokka"
 
 echo ""
 echo "🏁 基因组组装流程完成（EToKi-批量处理）！"
+python3 /home/luolintao/test_mail.py "1-组装/script/2-EToKi新版.sh任务完成通知" "<p>1-组装/script/2-EToKi新版.sh分析已完成，请查看结果目录。</p>"
