@@ -1,6 +1,6 @@
 #!/bin/bash
 
-indir="/data_raid/7_luolintao/1_Baoman/1-Assemble/NCBI_Sequence_1/fasta"
+indir="/data_raid/7_luolintao/1_Baoman/1-Assemble/NCBI_Sequence/fasta"
 
 
 

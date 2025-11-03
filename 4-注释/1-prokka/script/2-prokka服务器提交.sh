@@ -4,7 +4,7 @@
 # 配置
 SESSION_NAME="prokka_run"
 SCRIPT_PATH="/home/luolintao/0_Github/13-A.baumannii/4-注释/1-prokka/script/2-prokka.sh"
-LOG_FILE="prokka_run.log"
+LOG_FILE="/data_raid/7_luolintao/1_Baoman/1-Assemble/NCBI_Sequence/prokka_run.log"
 
 echo "🧬 启动 prokka 批处理..."
 echo "会话名称: $SESSION_NAME"

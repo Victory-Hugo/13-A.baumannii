@@ -3,8 +3,8 @@
 #todo conda install prokka
 
 # 定义输入和输出目录
-INPUT_DIR="//data_raid/7_luolintao/1_Baoman/1-Assemble/NCBI_Sequence_1/fasta"
-OUTPUT_DIR="/data_raid/7_luolintao/1_Baoman/1-Assemble/NCBI_Sequence_1/prokka"
+INPUT_DIR="/data_raid/7_luolintao/1_Baoman/1-Assemble/NCBI_Sequence/fasta"
+OUTPUT_DIR="/data_raid/7_luolintao/1_Baoman/1-Assemble/NCBI_Sequence/prokka"
 
 # 创建输出目录（如果不存在）
 mkdir -p "$OUTPUT_DIR"
@@ -39,3 +39,5 @@ export OUTPUT_DIR
 find "$INPUT_DIR" -name "*.fasta" -type f | parallel --bar -j 8 process_fasta
 
 echo "所有文件处理完成！"
+python3 /home/luolintao/test_mail.py "4-注释/1-prokka/script/2-prokka.sh任务完成通知" "<p>4-注释/1-prokka/script/2-prokka.sh分析已完成，请查看结果目录。</p>"
+echo "已发送任务完成通知邮件。"
