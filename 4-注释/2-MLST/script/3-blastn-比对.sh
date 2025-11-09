@@ -5,8 +5,8 @@ set -euo pipefail
 BASE="/home/luolintao/0_Github/13-A.baumannii/4-注释/2-MLST/download"
 OX_DB="${BASE}/Oxford/blastdb/oxford"
 PA_DB="${BASE}/Pasteur/blastdb/pasteur"
-IN_DIR="/data_ssd3/7_luolintao_Baoman/1-Assemble/NCBI_Origin/prokka/"
-OUT_DIR="/data_ssd3/7_luolintao_Baoman/1-Assemble/NCBI_Origin/MLST"
+IN_DIR="/data_raid/7_luolintao/1_Baoman/1-Assemble/NCBI_Sequence/prokka/"
+OUT_DIR="/data_raid/7_luolintao/1_Baoman/1-Assemble/NCBI_Sequence/MLST"
 
 # 并发度（可改），parallel 存在时生效；默认为 CPU 核心数
 PARALLEL_JOBS="${PARALLEL_JOBS:-0}"   # 0 表示让 parallel 自定（= 核心数）

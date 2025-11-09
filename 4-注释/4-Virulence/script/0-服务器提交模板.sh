@@ -4,7 +4,7 @@
 # 配置
 SESSION_NAME="Virulence_run"
 SCRIPT_PATH="/home/luolintao/0_Github/13-A.baumannii/4-注释/4-Virulence/script/2-比对-diamond.sh"
-LOG_FILE="Virulence_run.log"
+LOG_FILE="/data_raid/7_luolintao/1_Baoman/1-Assemble/NCBI_Sequence/Virulence_run.log"
 
 echo "🧬 启动 $SESSION_NAME 批处理..."
 echo "会话名称: $SESSION_NAME"

@@ -13,8 +13,8 @@
 #*    ├── ERR1946999.faa
 #*    ├── ERR1946999.fna
 #*    ├── ERR1946999.gff
-PROKKA_OUT_DIR="/data_ssd3/7_luolintao_Baoman/1-Assemble/NCBI_Origin/prokka"    # Prokka 输出的父目录（其下每个样本一个子目录）
-OUT_DIR="/data_ssd3/7_luolintao_Baoman/1-Assemble/NCBI_Origin/抗生素耐药"           # 结果输出目录
+PROKKA_OUT_DIR="/data_raid/7_luolintao/1_Baoman/1-Assemble/NCBI_Sequence/prokka"    # Prokka 输出的父目录（其下每个样本一个子目录）
+OUT_DIR="/data_raid/7_luolintao/1_Baoman/1-Assemble/NCBI_Sequence/抗生素耐药"           # 结果输出目录
 THREADS_PER_JOB="${THREADS_PER_JOB:-4}"        # amrfinder 的 --threads（每个并发任务用多少线程）
 JOBS="${JOBS:-0}"                               # 并发任务数；0 表示让 parallel 自动取 CPU 核心数；xargs 时会用 nproc
 #（可选）显式指定 AMRFinder 数据库目录；若留空将使用默认查找
@@ -114,3 +114,4 @@ fi
 
 echo
 echo "✅ 全部完成，结果在：${OUT_DIR}"
+python3 /home/luolintao/test_mail.py "任务完成通知" "<p>分析已完成，请查看结果目录。</p>"

@@ -37,9 +37,9 @@ set -euo pipefail
 #   - 支持用户自定义并发参数，建议根据实际硬件调整。
 
 # === 配置 ===
-PROKKA_DIR="/data_ssd3/7_luolintao_Baoman/1-Assemble/NCBI_Origin/prokka"
+PROKKA_DIR="/data_raid/7_luolintao/1_Baoman/1-Assemble/NCBI_Sequence/prokka"
 VFDB_DB="/home/luolintao/0_Github/13-A.baumannii/4-注释/4-Virulence/data/VFDB_2022_pro_combined"
-OUT_DIR="/data_ssd3/7_luolintao_Baoman/1-Assemble/NCBI_Origin/毒力因子"
+OUT_DIR="/data_raid/7_luolintao/1_Baoman/1-Assemble/NCBI_Sequence/毒力因子"
 JOBS="${JOBS:-0}"               # 并发任务数：0=自动计算（见后）
 THREADS_PER_JOB="${THREADS_PER_JOB:-1}"  # 每个 diamond 的线程（默认 1，更保守）
 
@@ -126,3 +126,4 @@ else
 fi
 
 echo "✅ 全部 DIAMOND 比对完成：${OUT_DIR}"
+python3 /home/luolintao/test_mail.py "4-注释/4-Virulence/script/2-比对-diamond.sh任务完成通知" "<p>4-注释/4-Virulence/script/2-比对-diamond.sh分析已完成，请查看结果目录。</p>"

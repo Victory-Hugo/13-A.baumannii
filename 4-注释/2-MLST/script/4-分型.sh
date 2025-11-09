@@ -14,8 +14,8 @@ PYTHON_SCRIPT="/home/luolintao/0_Github/13-A.baumannii/4-注释/2-MLST/python/4-
 PROFILES_DIR="/home/luolintao/0_Github/13-A.baumannii/4-注释/2-MLST/download"
 
 # 输入输出路径配置
-BLAST_RESULTS_DIR="/data_ssd3/7_luolintao_Baoman/1-Assemble/NCBI_Origin/MLST"
-OUTPUT_DIR="/data_ssd3/7_luolintao_Baoman/1-Assemble/NCBI_Origin/MLST/分型结果"
+BLAST_RESULTS_DIR="/data_raid/7_luolintao/1_Baoman/1-Assemble/NCBI_Sequence/MLST"
+OUTPUT_DIR="/data_raid/7_luolintao/1_Baoman/1-Assemble/NCBI_Sequence/MLST/分型结果"
 
 # 质量控制参数
 MIN_IDENTITY=95.0
