@@ -10,8 +10,8 @@
 # 5) **取消 temp 文件，直接用 .ffn 输入**
 
 # ================== 可配置区 ==================
-INPUT_DIR="/data_ssd3/7_luolintao_Baoman/1-Assemble/NCBI_Origin/prokka" 
-OUTPUT_DIR="/data_ssd3/7_luolintao_Baoman/1-Assemble/NCBI_Origin/荚膜多糖"
+INPUT_DIR="/data_raid/7_luolintao/1_Baoman/1-Assemble/NCBI_Sequence/prokka" 
+OUTPUT_DIR="/data_raid/7_luolintao/1_Baoman/1-Assemble/NCBI_Sequence/荚膜多糖"
 
 PARALLEL_JOBS="2"
 # ============================================
@@ -68,10 +68,15 @@ run_one_sample() {
 
 # GNU parallel or fallback
 if command -v parallel >/dev/null 2>&1 && [ "${PARALLEL_JOBS}" -gt 1 ]; then
-  echo "使用 GNU parallel 运行（jobs=${PARALLEL_JOBS}）"
+  echo "使用 GNU parallel 运行（jobs=${PARALLEL_JOBS}}）"
   export -f run_one_sample
   export OUTPUT_DIR
-  printf '%s\0' "${FFN_FILES[@]}" | parallel --unsafe -0 --jobs "${PARALLEL_JOBS}" --will-cite 'run_one_sample {}'
+  if ! printf '%s\0' "${FFN_FILES[@]}" | parallel -0 --jobs "${PARALLEL_JOBS}" --will-cite 'run_one_sample {}'; then
+    echo "GNU parallel 执行失败，切换至串行模式"
+    for f in "${FFN_FILES[@]}"; do
+      run_one_sample "$f"
+    done
+  fi
 else
   echo "未安装 GNU parallel 或 PARALLEL_JOBS==1，使用 for 循环串行运行"
   for f in "${FFN_FILES[@]}"; do
