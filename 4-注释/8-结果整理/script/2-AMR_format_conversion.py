@@ -24,9 +24,88 @@ import sys
 
 def load_amr_data(csv_file):
     """加载CSV数据"""
-    df = pd.read_csv(csv_file)
-    print(f"✓ 加载数据：{len(df)} 行")
-    return df
+    try:
+        # 首先尝试标准读取
+        df = pd.read_csv(csv_file)
+        print(f"✓ 加载数据：{len(df)} 行")
+        return df
+    except pd.errors.ParserError as e:
+        print(f"⚠️  CSV解析错误: {e}")
+        print("🔧 尝试使用更健壮的解析方法...")
+        
+        # 使用更健壮的参数重新尝试
+        try:
+            df = pd.read_csv(csv_file, 
+                           quoting=1,  # 使用quote_all
+                           skipinitialspace=True,
+                           on_bad_lines='skip',  # 跳过问题行
+                           low_memory=False)
+            print(f"✓ 使用健壮模式加载数据：{len(df)} 行")
+            return df
+        except Exception as e2:
+            print(f"❌ 健壮模式也失败了: {e2}")
+            print("🔧 尝试逐行读取并清理数据...")
+            
+            # 最后的备选方案：逐行读取和清理
+            return load_amr_data_robust(csv_file)
+
+def load_amr_data_robust(csv_file):
+    """健壮的CSV数据读取函数，处理格式问题"""
+    import csv
+    import io
+    
+    print("📖 正在逐行读取和清理CSV文件...")
+    
+    # 读取原始文件内容
+    with open(csv_file, 'r', encoding='utf-8', errors='ignore') as f:
+        content = f.read()
+    
+    # 清理内容：移除多余的换行符
+    lines = content.split('\n')
+    header = lines[0]
+    expected_cols = len(header.split(','))
+    
+    cleaned_lines = [header]
+    current_line = ""
+    
+    for line in lines[1:]:
+        if not line.strip():
+            continue
+            
+        current_line += " " + line.strip() if current_line else line.strip()
+        
+        # 检查当前行是否有正确的列数
+        if current_line.count(',') >= expected_cols - 1:
+            # 尝试解析这一行
+            try:
+                cols = current_line.split(',')
+                if len(cols) >= expected_cols:
+                    # 如果列数太多，尝试合并多余的列到最后一列
+                    if len(cols) > expected_cols:
+                        fixed_cols = cols[:expected_cols-1] + [','.join(cols[expected_cols-1:])]
+                        current_line = ','.join(fixed_cols)
+                    cleaned_lines.append(current_line)
+                    current_line = ""
+            except:
+                continue
+    
+    # 如果还有未完成的行
+    if current_line.strip():
+        cleaned_lines.append(current_line)
+    
+    # 创建清理后的CSV内容
+    cleaned_content = '\n'.join(cleaned_lines)
+    
+    # 使用StringIO读取清理后的内容
+    try:
+        df = pd.read_csv(io.StringIO(cleaned_content))
+        print(f"✓ 健壮模式加载数据：{len(df)} 行")
+        return df
+    except Exception as e:
+        print(f"❌ 最终读取失败: {e}")
+        # 如果仍然失败，返回空DataFrame但包含正确的列
+        columns = header.split(',')
+        return pd.DataFrame(columns=columns)
 
 def get_sample_id(filename):
     """从filename字段提取样本ID"""
@@ -123,7 +202,8 @@ def format_3_phenotype_summary(df, output_dir):
         total_genes = len(sample_df)
         
         # 获取具体的药物亚类
-        subclasses = ', '.join(sample_df['Subclass'].unique()[:10])  # 前10个
+        subclass_values = sample_df['Subclass'].dropna().unique()[:10]  # 移除NaN并取前10个
+        subclasses = ', '.join(str(x) for x in subclass_values)  # 确保所有值都是字符串
         
         phenotype_data.append({
             'Sample': sample_id,
@@ -336,7 +416,9 @@ def format_7_drug_class_profile(df, output_dir):
         sample_df = df[df['filename'] == filename]
         
         profile = {'Sample': sample_id}
-        for drug_class in sorted(df['Class'].unique()):
+        # 获取所有非NaN的Class值并排序
+        unique_classes = df['Class'].dropna().unique()
+        for drug_class in sorted(unique_classes):
             count = len(sample_df[sample_df['Class'] == drug_class])
             profile[drug_class] = count
         
