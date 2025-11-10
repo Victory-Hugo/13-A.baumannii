@@ -493,40 +493,7 @@ def generate_summary_report(output_dir, results):
     print(report)
     print(f"\n📄 详细说明已保存到：{report_file}")
 
-def main():
-    if len(sys.argv) < 2:
-        print(__doc__)
-        print("\n示例用法：")
-        print("  python3 2-AMR_format_conversion.py All_Samples_抗生素耐药.csv ./output")
-        sys.exit(1)
-    
-    input_file = Path(sys.argv[1])
-    output_dir = Path(sys.argv[2] if len(sys.argv) > 2 else "amr_output")
-    
-    if not input_file.exists():
-        print(f"❌ 输入文件不存在：{input_file}")
-        sys.exit(1)
-    
-    output_dir.mkdir(parents=True, exist_ok=True)
-    print(f"📁 输出目录：{output_dir}\n")
-    
-    # 加载数据
-    df = load_amr_data(input_file)
-    
-    # 执行各种格式转换
-    results = {
-        'presence_absence': format_1_wide_gene_presence(df, output_dir),
-        'tidy_long': format_2_long_normalized(df, output_dir),
-        'phenotype': format_3_phenotype_summary(df, output_dir),
-        'cooccurrence': format_4_gene_cooccurrence(df, output_dir),
-        'network': format_5_json_network(df, output_dir),
-        'metrics': format_6_sample_metrics(df, output_dir),
-        'drug_profile': format_7_drug_class_profile(df, output_dir),
-    }
-    
-    # 生成总结报告
-    generate_summary_report(output_dir, results)
-    
+
     print("\n✅ 所有转换完成！")
 
 if __name__ == "__main__":
