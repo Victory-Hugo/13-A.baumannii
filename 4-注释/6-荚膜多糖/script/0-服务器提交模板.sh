@@ -4,7 +4,7 @@
 # 配置
 SESSION_NAME="Kaptive_run"
 SCRIPT_PATH="/home/luolintao/0_Github/13-A.baumannii/4-注释/6-荚膜多糖/script/1-Kaptive.sh"
-LOG_FILE="Kaptive_run.log"
+LOG_FILE="/data_raid/7_luolintao/1_Baoman/1-Assemble/NCBI_Sequence/Kaptive_run.log"
 
 echo "🧬 启动 $SESSION_NAME 批处理..."
 echo "会话名称: $SESSION_NAME"
