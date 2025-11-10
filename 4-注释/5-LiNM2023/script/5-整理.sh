@@ -1,9 +1,9 @@
 #!/bin/bash
 # Author: BigLin
 
-YUZHI_DIR="/data_raid/7_luolintao/1_Baoman/1-Assemble/NCBI_Sequence/生物杀灭抵抗/阈值"
+YUZHI_DIR="/data_raid/7_luolintao/1_Baoman/1-Assemble/NCBI_Origin/生物杀灭抵抗/阈值"
 TEMP_COMBINED="${YUZHI_DIR}/combined_生物杀灭抵抗_data.csv"
-OUTPUT_FILE="/data_raid/7_luolintao/1_Baoman/1-Assemble/NCBI_Sequence/All_Samples_生物杀灭抵抗_阈值.csv"
+OUTPUT_FILE="/data_raid/7_luolintao/1_Baoman/1-Assemble/NCBI_Origin/All_Samples_生物杀灭抵抗_阈值.csv"
 
 build_segment() {
     local count=$1
@@ -39,11 +39,23 @@ fi
 : > "$TEMP_COMBINED"
 
 count=0
+header_written=0
 print_progress "$count" "$total"
 for file in "${files[@]}"; do
     count=$(( count + 1 ))
     file_base="$(basename "$file")"
-    awk -v FS='\t' -v OFS=',' -v fname="$file_base" '{$1=fname","$1; print}' "$file" >> "$TEMP_COMBINED"
+    if (( header_written == 0 )); then
+        awk -v FS='\t' -v OFS=',' -v fname="$file_base" '
+            NR==1 { $1 = "filename," $1; print; next }
+            { $1 = fname "," $1; print }
+        ' "$file" >> "$TEMP_COMBINED"
+        header_written=1
+    else
+        awk -v FS='\t' -v OFS=',' -v fname="$file_base" '
+            NR==1 { next }
+            { $1 = fname "," $1; print }
+        ' "$file" >> "$TEMP_COMBINED"
+    fi
     print_progress "$count" "$total"
 done
 printf '\n'

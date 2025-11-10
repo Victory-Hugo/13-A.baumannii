@@ -1,8 +1,8 @@
 #!/bin/bash
 # Author: BigLin
 
-AMR_OUT_DIR="/data_raid/7_luolintao/1_Baoman/1-Assemble/NCBI_Sequence/抗生素耐药"
-OUTPUT_FILE="/data_raid/7_luolintao/1_Baoman/1-Assemble/NCBI_Sequence/All_Samples_抗生素耐药.csv"
+AMR_OUT_DIR="/data_raid/7_luolintao/1_Baoman/1-Assemble/NCBI_Origin/抗生素耐药"
+OUTPUT_FILE="/data_raid/7_luolintao/1_Baoman/1-Assemble/NCBI_Origin/All_Samples_抗生素耐药.csv"
 TEMP_COMBINED="${AMR_OUT_DIR}/All_Samples_Antibiotic_Genes.csv"
 
 build_segment() {
@@ -39,11 +39,23 @@ fi
 : > "$TEMP_COMBINED"
 
 count=0
+header_written=0
 print_progress "$count" "$total"
 for file in "${files[@]}"; do
     count=$(( count + 1 ))
     file_base="$(basename "$file")"
-    awk -v FS='\t' -v OFS=',' -v fname="$file_base" 'NR==1{$1="filename,"$1; print} NR>1{$1=fname","$1; print}' "$file" >> "$TEMP_COMBINED"
+    if (( header_written == 0 )); then
+        awk -v FS='\t' -v OFS=',' -v fname="$file_base" '
+            NR==1 { $1 = "filename," $1; print; next }
+            { $1 = fname "," $1; print }
+        ' "$file" >> "$TEMP_COMBINED"
+        header_written=1
+    else
+        awk -v FS='\t' -v OFS=',' -v fname="$file_base" '
+            NR==1 { next }
+            { $1 = fname "," $1; print }
+        ' "$file" >> "$TEMP_COMBINED"
+    fi
     print_progress "$count" "$total"
 done
 printf '\n'
