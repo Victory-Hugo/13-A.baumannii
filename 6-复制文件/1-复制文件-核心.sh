@@ -7,10 +7,10 @@
 # 日期: 2025年9月24日
 
 # 设置变量
-SOURCE_DIR="/data_ssd3/7_luolintao_Baoman/1-Assemble/NCBI_Origin/" #* 需要被复制的源目录
-TARGET_DIR="/data_raid/7_luolintao/1_Baoman/1-Assemble/NCBI_Origin/" #* 目标目录
-LOG_FILE="/data_ssd3/7_luolintao_Baoman/1-Assemble/copy_Assembly_$(date +%Y%m%d_%H%M%S).log" #* 日志文件
-PROGRESS_FILE="/data_ssd3/7_luolintao_Baoman/1-Assemble/copy_Assembly_progress.txt" #* 进度文件
+SOURCE_DIR="/mnt/chucunpan2/bacteria/" #* 需要被复制的源目录
+TARGET_DIR="/data_raid/7_luolintao/2-NCBI-2024/" #* 目标目录
+LOG_FILE="/data_raid/7_luolintao/copy_$(date +%Y%m%d_%H%M%S).log" #* 日志文件
+PROGRESS_FILE="/data_raid/7_luolintao//copy_Assembly_progress.txt" #* 进度文件
 
 
 # 函数：记录日志
