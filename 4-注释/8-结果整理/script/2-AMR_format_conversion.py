@@ -4,6 +4,7 @@ AMRFinder 结果格式转换工具
 将抗生素耐药基因数据整理为多种格式用于不同的数据分析
 
 功能：
+0. CSV → 样本AMR总数统计
 1. CSV → 宽表格式（样本×耐药基因）
 2. CSV → 长表格式（规范化）
 3. CSV → 耐药谱系统计表
@@ -12,7 +13,11 @@ AMRFinder 结果格式转换工具
 6. CSV → 样本级别的耐药指数
 
 用法：
-    python3 2-AMR_format_conversion.py <input_csv> <output_dir>
+    python3 2-AMR_format_conversion.py <input_csv> <output_dir> [是否输出具体文件]
+
+第三个参数可选（默认“是”）：
+    - “是/yes” 输出目前所有格式。
+    - “否/no” 仅输出样本AMR总数文件。
 """
 
 import pandas as pd
@@ -21,6 +26,10 @@ import numpy as np
 from pathlib import Path
 from collections import defaultdict
 import sys
+
+DEFAULT_FULL_OUTPUT_FLAG = "是"
+FULL_OUTPUT_TRUE = {"是", "yes", "y", "true", "1", "all", "full"}
+FULL_OUTPUT_FALSE = {"否", "no", "n", "false", "0", "none"}
 
 def load_amr_data(csv_file):
     """加载CSV数据"""
@@ -113,6 +122,44 @@ def get_sample_id(filename):
         return None
     # 格式: DRR033181_AMRFinder.tsv -> DRR033181
     return str(filename).replace('_AMRFinder.tsv', '').strip()
+
+
+def parse_full_output_flag(value):
+    """解析“是否输出具体文件”参数"""
+    if value is None:
+        return True
+    normalized = str(value).strip().lower()
+    if not normalized:
+        return True
+    if normalized in FULL_OUTPUT_TRUE:
+        return True
+    if normalized in FULL_OUTPUT_FALSE:
+        return False
+    print(f"⚠️ 未能识别参数“{value}”，默认输出全部文件。")
+    return True
+
+
+def export_sample_total_counts(df, output_dir):
+    """输出每个样本的AMR总数"""
+    print("\n=== 样本AMR总数统计 ===")
+    temp_df = df.copy()
+    temp_df['Sample'] = temp_df['filename'].map(get_sample_id)
+    temp_df = temp_df.dropna(subset=['Sample'])
+    temp_df = temp_df[temp_df['Sample'].astype(str).str.strip() != ""]
+    totals = (
+        temp_df.groupby('Sample')
+        .size()
+        .reset_index(name='Total_AMR_Genes')
+        .sort_values('Sample')
+    )
+    output_file = output_dir / "0-amr_sample_totals.csv"
+    totals.to_csv(output_file, index=False)
+    print(f"✓ 输出：{output_file}")
+    if not totals.empty:
+        print(totals.to_string(index=False))
+    else:
+        print("  （无有效样本）")
+    return totals, output_file
 
 def format_1_wide_gene_presence(df, output_dir):
     """格式1：宽表格式 - 样本×基因（0/1矩阵）"""
@@ -443,6 +490,10 @@ def generate_summary_report(output_dir, results):
 数据转换完成！
 
 ✓ 生成的格式：
+  0. 0-amr_sample_totals.csv
+     - 用途：快速比较各样本耐药基因数量
+     - 格式：样本 × Total_AMR_Genes
+     - 适合工具：Excel 快速筛选、趋势图
   1. presence_absence_matrix.csv
      - 用途：机器学习、聚类分析、热力图可视化
      - 格式：样本 × 基因（0/1矩阵）
@@ -495,6 +546,46 @@ def generate_summary_report(output_dir, results):
 
 
     print("\n✅ 所有转换完成！")
+
+
+def main():
+    if len(sys.argv) not in (3, 4):
+        print(__doc__)
+        sys.exit(1)
+
+    input_csv = Path(sys.argv[1])
+    output_dir = Path(sys.argv[2])
+    flag_value = sys.argv[3] if len(sys.argv) == 4 else DEFAULT_FULL_OUTPUT_FLAG
+    full_output = parse_full_output_flag(flag_value)
+
+    if not input_csv.exists():
+        print(f"❌ 输入文件不存在：{input_csv}")
+        sys.exit(1)
+
+    output_dir.mkdir(parents=True, exist_ok=True)
+
+    df = load_amr_data(input_csv)
+    if df.empty:
+        print("⚠️ 警告：输入数据为空，仍将输出空模板文件。")
+
+    totals_df, _ = export_sample_total_counts(df, output_dir)
+
+    if not full_output:
+        print("ℹ️ 根据参数“是否输出具体文件=否”，仅输出样本总数文件。")
+        return
+
+    results = {'sample_totals': totals_df}
+    results['presence_absence'] = format_1_wide_gene_presence(df, output_dir)
+    results['tidy_long'] = format_2_long_normalized(df, output_dir)
+    results['phenotype_summary'] = format_3_phenotype_summary(df, output_dir)
+    results['gene_cooccurrence'] = format_4_gene_cooccurrence(df, output_dir)
+    results['network_json'] = format_5_json_network(df, output_dir)
+    results['sample_metrics'] = format_6_sample_metrics(df, output_dir)
+    results['drug_class_profile'] = format_7_drug_class_profile(df, output_dir)
+
+    generate_summary_report(output_dir, results)
+    print("\n✅ AMR 数据格式转换全部完成！")
+
 
 if __name__ == "__main__":
     main()
