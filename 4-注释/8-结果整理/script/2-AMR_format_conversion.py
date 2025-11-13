@@ -9,7 +9,7 @@ AMRFinder 结果格式转换工具
 2. CSV → 长表格式（规范化）
 3. CSV → 耐药谱系统计表
 4. CSV → 基因共现矩阵
-5. CSV → JSON格式（便于可视化）
+5. （已停用）JSON格式（默认不再输出）
 6. CSV → 样本级别的耐药指数
 
 用法：
@@ -21,7 +21,6 @@ AMRFinder 结果格式转换工具
 """
 
 import pandas as pd
-import json
 import numpy as np
 from pathlib import Path
 from collections import defaultdict
@@ -324,71 +323,11 @@ def format_4_gene_cooccurrence(df, output_dir):
     return cooccurrence_matrix
 
 def format_5_json_network(df, output_dir):
-    """格式5：JSON格式 - 用于可视化（如Cytoscape）"""
+    """格式5：JSON网络数据（已根据需求停用，不再输出文件）"""
     print("\n=== 格式5：JSON网络格式 ===")
-    
-    nodes = []
-    edges = []
-    node_set = set()
-    
-    # 1. 样本节点和基因节点
-    for filename in df['filename'].dropna().unique():
-        sample_id = get_sample_id(filename)
-        if not sample_id:
-            continue
-        
-        sample_df = df[df['filename'] == filename]
-        
-        # 添加样本节点
-        if sample_id not in node_set:
-            nodes.append({
-                'id': sample_id,
-                'label': sample_id,
-                'type': 'sample',
-                'size': len(sample_df)
-            })
-            node_set.add(sample_id)
-        
-        # 添加基因节点和连接
-        for _, row in sample_df.iterrows():
-            gene_symbol = row['Element symbol']
-            if gene_symbol not in node_set:
-                nodes.append({
-                    'id': gene_symbol,
-                    'label': gene_symbol,
-                    'type': 'gene',
-                    'drug_class': row['Class'],
-                    'size': 10
-                })
-                node_set.add(gene_symbol)
-            
-            # 添加边（样本-基因关系）
-            edges.append({
-                'source': sample_id,
-                'target': gene_symbol,
-                'type': 'carries',
-                'weight': 1
-            })
-    
-    network_data = {
-        'nodes': nodes,
-        'edges': edges,
-        'metadata': {
-            'total_samples': len(set(get_sample_id(f) for f in df['filename'].dropna())),
-            'total_genes': len(set(df['Element symbol'])),
-            'total_relationships': len(edges)
-        }
-    }
-    
-    output_file = output_dir / "5-network_data.json"
-    with open(output_file, 'w', encoding='utf-8') as f:
-        json.dump(network_data, f, ensure_ascii=False, indent=2)
-    
-    print(f"✓ 输出：{output_file}")
-    print(f"  节点数：{len(nodes)}")
-    print(f"  边数：{len(edges)}")
-    
-    return network_data
+    print("ℹ️ 根据当前配置，已跳过 JSON 网络文件的生成。")
+    print("   （若后续需要，可恢复 format_5_json_network 中的实现再执行。）")
+    return None
 
 def format_6_sample_metrics(df, output_dir):
     """格式6：样本级别的耐药指数"""
@@ -514,10 +453,9 @@ def generate_summary_report(output_dir, results):
      - 格式：基因 × 基因（共现频率）
      - 适合工具：R igraph, Cytoscape, Gephi
   
-  5. network_data.json
-     - 用途：交互式网络可视化
-     - 格式：图论格式（节点+边）
-     - 适合工具：Cytoscape.js, D3.js, Gephi导入
+  5. network_data.json （当前版本默认跳过）
+     - 用途：交互式网络可视化（如需可视化，可手动恢复该输出）
+     - 状态：根据需求已停用，避免生成体量较大的JSON文件
   
   6. sample_resistance_metrics.csv
      - 用途：相关性分析、回归分析
@@ -533,7 +471,7 @@ def generate_summary_report(output_dir, results):
   Step 1: 用 phenotype_summary.csv 做初步描述
   Step 2: 用 presence_absence_matrix.csv 进行聚类
   Step 3: 用 gene_cooccurrence_matrix.csv 分析基因关联
-  Step 4: 用 network_data.json 在Cytoscape中可视化
+  Step 4: （可选）若恢复 JSON 输出，可在 Cytoscape 中可视化
   Step 5: 用 sample_resistance_metrics.csv 进行相关性分析
 """
     

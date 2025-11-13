@@ -20,10 +20,10 @@
     README_biocide_summary.txt       # 输出说明
 """
 import io
-from collections import Counter
 from pathlib import Path
 import sys
 
+import numpy as np
 import pandas as pd
 
 DEFAULT_FULL_OUTPUT_FLAG = "是"
@@ -85,23 +85,57 @@ def load_table_line_by_line(csv_path):
         return pd.DataFrame(columns=columns)
 
 
-def parse_subject_id(value):
-    """从sseqid字段拆分出因子ID与参考信息。"""
-    if pd.isna(value):
-        return "", ""
-    text = str(value).strip()
-    if not text:
-        return "", ""
-    reference = ""
-    gene_id = text
-    if "(" in text and text.endswith(")"):
-        gene_id = text.split("(", 1)[0]
-        reference = text[text.find("(") + 1 : -1]
-    elif "|" in text:
-        parts = text.split("|")
-        gene_id = parts[-1]
-        reference = "|".join(parts[:-1])
-    return gene_id.strip(), reference.strip()
+def split_subject_fields(raw_subject_series):
+    """向量化拆分Subject ID与参考信息。"""
+    series = raw_subject_series.fillna("").astype(str).str.strip()
+    gene_id = series.copy()
+    reference = pd.Series("", index=series.index, dtype="object")
+
+    mask_parentheses = series.str.contains("(", regex=False) & series.str.endswith(")")
+    if mask_parentheses.any():
+        parts = series[mask_parentheses].str.split("(", n=1, expand=True)
+        gene_id.loc[mask_parentheses] = parts[0].str.strip()
+        reference.loc[mask_parentheses] = parts[1].str[:-1].str.strip()
+
+    mask_pipe = (~mask_parentheses) & series.str.contains("|", regex=False)
+    if mask_pipe.any():
+        splits = series[mask_pipe].str.rsplit("|", n=1, expand=True)
+        gene_id.loc[mask_pipe] = splits[1].str.strip()
+        reference.loc[mask_pipe] = splits[0].str.strip()
+
+    gene_id = gene_id.fillna("").astype(str).str.strip()
+    reference = reference.fillna("").astype(str).str.strip()
+    return gene_id, reference
+
+
+def build_top_hits_series(df, sample_col="Sample", id_col="Subject_ID", top_n=5):
+    """构建每个样本的Top因子字符串表示。"""
+    valid = df[[sample_col, id_col]].copy()
+    valid[id_col] = valid[id_col].astype(str).str.strip()
+    valid = valid[valid[id_col] != ""]
+    if valid.empty:
+        return pd.Series(dtype="object")
+    counts = (
+        valid.groupby([sample_col, id_col], sort=False)
+        .size()
+        .rename("Hit_Count")
+        .reset_index()
+    )
+    counts.sort_values(
+        [sample_col, "Hit_Count", id_col],
+        ascending=[True, False, True],
+        kind="mergesort",
+        inplace=True,
+    )
+    top_counts = counts.groupby(sample_col, group_keys=False).head(top_n)
+
+    def _format(group):
+        return "; ".join(
+            f"{gene}:{count}" for gene, count in zip(group[id_col], group["Hit_Count"])
+        )
+
+    formatted = top_counts.groupby(sample_col, group_keys=False).apply(_format)
+    return formatted
 
 
 def prepare_dataframe(df):
@@ -115,11 +149,9 @@ def prepare_dataframe(df):
     normalized["Filename"] = normalized["Sample"]
     normalized["Query_ID"] = normalized["qseqid"].astype(str).str.strip()
     normalized["Raw_Subject"] = normalized["sseqid"].astype(str).str.strip()
-    parsed = normalized["Raw_Subject"].map(parse_subject_id)
-    normalized["Subject_ID"] = parsed.map(lambda pair: pair[0])
-    normalized["Subject_Reference"] = parsed.map(lambda pair: pair[1])
-    normalized["Subject_ID"] = normalized["Subject_ID"].fillna("").str.strip()
-    normalized["Subject_Reference"] = normalized["Subject_Reference"].fillna("").str.strip()
+    subject_id, subject_ref = split_subject_fields(normalized["Raw_Subject"])
+    normalized["Subject_ID"] = subject_id
+    normalized["Subject_Reference"] = subject_ref
     normalized["Subject_Category"] = ENTITY_NAME
     return normalized
 
@@ -156,13 +188,6 @@ def export_sample_total_counts(df, output_dir):
     else:
         print("  （无有效样本）")
     return totals, output_file
-
-
-def format_top_hits(values, top_n=5):
-    counts = Counter(v for v in values if isinstance(v, str) and v.strip())
-    if not counts:
-        return ""
-    return "; ".join(f"{gene}:{count}" for gene, count in counts.most_common(top_n))
 
 
 def export_presence_absence(df, output_dir):
@@ -217,9 +242,8 @@ def export_sample_summary(df, output_dir):
         )
         .reset_index()
     )
-    summary["Top_biocide"] = summary["Sample"].map(
-        lambda sample: format_top_hits(df[df["Sample"] == sample]["Subject_ID"])
-    )
+    top_hits = build_top_hits_series(df, sample_col="Sample", id_col="Subject_ID")
+    summary["Top_biocide"] = summary["Sample"].map(top_hits).fillna("")
     output_file = output_dir / f"3-{PREFIX}_sample_summary.csv"
     summary.to_csv(output_file, index=False)
     print(f"✓ 输出：{output_file}")
@@ -233,21 +257,19 @@ def first_non_empty(values):
     return ""
 
 
-def export_gene_cooccurrence(df, output_dir):
-    gene_df = df.dropna(subset=["Subject_ID"])
-    gene_df = gene_df[gene_df["Subject_ID"].str.len() > 0]
-    genes = sorted(gene_df["Subject_ID"].unique())
-    if not genes:
+def export_gene_cooccurrence(df, output_dir, presence_matrix=None):
+    if presence_matrix is None:
+        presence_matrix, _ = export_presence_absence(df, output_dir)
+    if presence_matrix is None or presence_matrix.empty:
         print("⚠️ 因子列表为空，跳过共现矩阵。")
         return None, None
-    matrix = pd.DataFrame(0, index=genes, columns=genes, dtype=int)
-    for _, group in gene_df.groupby("Sample"):
-        sample_genes = sorted(group["Subject_ID"].unique())
-        for i, gene_a in enumerate(sample_genes):
-            for gene_b in sample_genes[i:]:
-                matrix.loc[gene_a, gene_b] += 1
-                if gene_a != gene_b:
-                    matrix.loc[gene_b, gene_a] += 1
+    matrix_values = presence_matrix.to_numpy(dtype=np.int64, copy=False)
+    cooccurrence_array = matrix_values.T @ matrix_values
+    matrix = pd.DataFrame(
+        cooccurrence_array,
+        index=presence_matrix.columns,
+        columns=presence_matrix.columns,
+    )
     output_file = output_dir / f"4-{PREFIX}_gene_cooccurrence.csv"
     matrix.to_csv(output_file)
     print(f"✓ 输出：{output_file}")
@@ -325,7 +347,7 @@ def main():
         print("ℹ️ 根据参数“是否输出具体文件=否”，仅输出样本总数文件。")
         return
 
-    _, path = export_presence_absence(normalized_df, output_dir)
+    presence_matrix, path = export_presence_absence(normalized_df, output_dir)
     if path:
         outputs.append(("presence/absence 矩阵", path))
     _, path = export_long_format(normalized_df, output_dir)
@@ -334,7 +356,7 @@ def main():
     _, path = export_sample_summary(normalized_df, output_dir)
     if path:
         outputs.append(("样本汇总", path))
-    _, path = export_gene_cooccurrence(normalized_df, output_dir)
+    _, path = export_gene_cooccurrence(normalized_df, output_dir, presence_matrix)
     if path:
         outputs.append(("因子共现矩阵", path))
     _, path = export_gene_summary(normalized_df, output_dir)
